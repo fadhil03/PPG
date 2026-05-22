@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hero Reference — Pilih Gaya</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f0f0f2;
+      padding: 40px 24px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1 {
+      font-size: 28px; font-weight: 700; color: #1d1d1f;
+      margin-bottom: 8px; letter-spacing: -0.5px;
+    }
+    .subtitle { font-size: 15px; color: #7a7a7a; margin-bottom: 48px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+      gap: 32px;
+      max-width: 1400px; margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+    .card__label {
+      padding: 16px 20px 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card__num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #1d1d1f; color: #fff;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card__name { font-size: 15px; font-weight: 700; color: #1d1d1f; }
+    .card__desc { font-size: 12px; color: #7a7a7a; margin-top: 1px; }
+    /* Preview frame — 16:9 scaled */
+    .preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* ═══════ OPTION 1 — SPLIT SCREEN ═══════ */
+    .p1 {
+      display: flex;
+      background: #050507;
+    }
+    .p1__left {
+      width: 42%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .p1__card {
+      background: linear-gradient(145deg,#1a1a1e,#0e0e10);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .p1__avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg,#2a2a2e,#141416);
+      margin: 0 auto 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: rgba(255,255,255,0.4);
+      position: relative;
+    }
+    .p1__avatar::before {
+      content:'';position:absolute;inset:-2px;border-radius:50%;
+      background: conic-gradient(#0066cc,#5e5ce6,#30d158,#0066cc);
+      z-index:-1; animation: sp 4s linear infinite;
+    }
+    @keyframes sp { to { transform: rotate(360deg); } }
+    .p1__name { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .p1__role { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .p1__tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 8px; }
+    .p1__tag {
+      font-size: 7px; padding: 2px 7px; border-radius: 99px;
+      background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .p1__glow {
+      position: absolute;
+      width: 120px; height: 120px;
+      background: rgba(0,102,204,0.25);
+      border-radius: 50%; filter: blur(40px);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      animation: glow 3s ease-in-out infinite;
+    }
+    @keyframes glow { 0%,100%{opacity:.5;transform:translate(-50%,-50%)scale(.9)} 50%{opacity:1;transform:translate(-50%,-50%)scale(1.1)} }
+    .p1__right {
+      flex: 1;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 24px 20px;
+    }
+    .p1__eyebrow {
+      font-size: 7px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #2997ff; margin-bottom: 8px;
+    }
+    .p1__h1 {
+      font-size: 20px; font-weight: 700; color: #fff;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .p1__sub { font-size: 8px; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 12px; }
+    .p1__divider { width: 24px; height: 2px; background: #0066cc; margin-bottom: 12px; border-radius: 2px; }
+    .p1__bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .p1__bullets li { font-size: 8px; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+    .p1__bullets li::before { content:''; width: 4px; height: 4px; border-radius: 50%; background: #0066cc; flex-shrink: 0; }
+    .p1__btns { display: flex; gap: 6px; margin-top: 14px; }
+    .p1__btn {
+      font-size: 8px; padding: 5px 12px; border-radius: 99px;
+      background: #0066cc; color: #fff; border: none; cursor: pointer;
+    }
+    .p1__btn--ghost { background: transparent; border: 1px solid rgba(41,151,255,.5); color: #2997ff; }
+
+    /* ═══════ OPTION 2 — TERMINAL / CODE ═══════ */
+    .p2 {
+      background: #0d1117;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .p2__scanlines {
+      position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.15) 3px, rgba(0,0,0,0.15) 4px);
+    }
+    .p2__window {
+      background: #161b22;
+      border: 1px solid rgba(48,209,88,0.2);
+      border-radius: 8px;
+      width: 75%;
+      box-shadow: 0 0 40px rgba(48,209,88,0.08);
+      position: relative; z-index: 1;
+    }
+    .p2__bar {
+      background: #21262d;
+      border-radius: 8px 8px 0 0;
+      padding: 6px 10px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .p2__dot { width: 7px; height: 7px; border-radius: 50%; }
+    .p2__title { font-size: 8px; color: rgba(255,255,255,0.3); margin-left: 6px; letter-spacing: 0.3px; }
+    .p2__body { padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 8px; }
+    .p2__line { line-height: 1.9; }
+    .p2__prompt { color: #30d158; }
+    .p2__cmd { color: #e6edf3; }
+    .p2__out { color: rgba(255,255,255,0.35); }
+    .p2__key { color: #79c0ff; }
+    .p2__val { color: #a5d6ff; }
+    .p2__str { color: #a8daab; }
+    .p2__cursor-blink { display: inline-block; width: 6px; height: 10px; background: #30d158; vertical-align: text-bottom; animation: bl .7s step-end infinite; }
+    @keyframes bl { 50%{opacity:0} }
+    .p2__btns { display: flex; gap: 8px; padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .p2__pill { font-size: 7px; padding: 4px 10px; border-radius: 99px; }
+    .p2__pill--blue { background: #0066cc; color: #fff; }
+    .p2__pill--ghost { background: transparent; border: 1px solid rgba(48,209,88,0.4); color: #30d158; }
+
+    /* ═══════ OPTION 3 — BENTO GRID ═══════ */
+    .p3 {
+      background: #f5f5f7;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 6px;
+      padding: 10px;
+    }
+    .p3__cell {
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .p3__c1 {
+      background: #1d1d1f;
+      grid-column: 1 / 2; grid-row: 1 / 3;
+      align-items: center;
+      justify-content: center;
+    }
+    .p3__avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg,#2a2a2e,#111);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: rgba(255,255,255,.4);
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .p3__avatar::before {
+      content:'';position:absolute;inset:-2px;border-radius:50%;
+      background:conic-gradient(#0066cc,#5e5ce6,#30d158,#0066cc);
+      z-index:-1; animation:sp 4s linear infinite;
+    }
+    .p3__c1-name { font-size: 11px; font-weight: 700; color: #fff; text-align: center; letter-spacing: -0.3px; }
+    .p3__c1-role { font-size: 7px; color: rgba(255,255,255,.4); text-align: center; margin-top: 3px; }
+    .p3__c2 { background: #0066cc; grid-column: 2/3; grid-row: 1/2; }
+    .p3__c2-num { font-size: 24px; font-weight: 700; color: #fff; line-height: 1; }
+    .p3__c2-lbl { font-size: 7px; color: rgba(255,255,255,.7); margin-top: 2px; }
+    .p3__c3 { background: #272729; grid-column: 3/4; grid-row: 1/2; }
+    .p3__c3-num { font-size: 24px; font-weight: 700; color: #30d158; }
+    .p3__c3-lbl { font-size: 7px; color: rgba(255,255,255,.5); }
+    .p3__c4 { background: #f5f5f7; border: 1px solid #e0e0e0; grid-column: 2/4; grid-row: 2/3; }
+    .p3__c4-title { font-size: 9px; font-weight: 700; color: #1d1d1f; }
+    .p3__c4-sub { font-size: 7px; color: #7a7a7a; margin-top: 2px; }
+    .p3__pills { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+    .p3__pill { font-size: 6px; padding: 2px 7px; border-radius: 99px; background: #1d1d1f; color: #fff; }
+    .p3__pill--blue { background: rgba(0,102,204,0.1); color: #0066cc; }
+
+    /* ═══════ OPTION 4 — FULLSCREEN CINEMATIC ═══════ */
+    .p4 {
+      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .p4__bg-text {
+      position: absolute;
+      font-size: 80px; font-weight: 900;
+      color: rgba(255,255,255,0.02);
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+      user-select: none;
+      top: 50%; transform: translateY(-50%);
+      font-family: system-ui;
+    }
+    .p4__line {
+      position: absolute; left: 0; right: 0;
+      height: 1px; background: rgba(255,255,255,0.06);
+    }
+    .p4__line--1 { top: 30%; } .p4__line--2 { top: 60%; }
+    .p4__line--v { top: 0; bottom: 0; width: 1px; left: 30%; }
+    .p4__inner { position: relative; z-index: 1; text-align: center; }
+    .p4__eyebrow {
+      font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 12px;
+    }
+    .p4__name {
+      font-size: 28px; font-weight: 700; color: #fff;
+      letter-spacing: -0.04em; line-height: 1;
+    }
+    .p4__dash { width: 30px; height: 1px; background: #0066cc; margin: 10px auto; }
+    .p4__sub { font-size: 8px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
+    .p4__btns { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+    .p4__btn { font-size: 7px; padding: 5px 12px; border-radius: 2px; }
+    .p4__btn--fill { background: #fff; color: #000; }
+    .p4__btn--ghost { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+    .p4__corner {
+      position: absolute; width: 14px; height: 14px;
+      border-color: rgba(255,255,255,0.15); border-style: solid;
+    }
+    .p4__corner--tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+    .p4__corner--tr { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
+    .p4__corner--bl { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
+    .p4__corner--br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+    .p4__stats {
+      display: flex; gap: 20px; justify-content: center;
+      margin-top: 16px;
+    }
+    .p4__stat { text-align: center; }
+    .p4__stat-num { font-size: 16px; font-weight: 700; color: #fff; }
+    .p4__stat-lbl { font-size: 6px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+
+    /* ═══════ OPTION 5 — GRADIENT MESH ═══════ */
+    .p5 {
+      position: relative;
+      overflow: hidden;
+      background: #0a0a14;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .p5__mesh {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 50%, rgba(88,86,214,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 70% at 80% 30%, rgba(0,102,204,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 60% 80%, rgba(48,209,88,0.18) 0%, transparent 60%);
+      animation: mesh 8s ease-in-out infinite;
+    }
+    @keyframes mesh {
+      0%,100%{opacity:1} 50%{opacity:.6}
+    }
+    .p5__noise {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .p5__inner { position: relative; z-index: 1; text-align: center; padding: 20px; }
+    .p5__avatar-wrap { position: relative; width: 56px; height: 56px; margin: 0 auto 12px; }
+    .p5__ring {
+      position: absolute; inset: -4px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(88,86,214,0.8), rgba(0,102,204,0.8), rgba(48,209,88,0.8));
+      animation: sp 4s linear infinite;
+    }
+    .p5__ring-inner {
+      position: absolute; inset: -2px; border-radius: 50%;
+      background: #0a0a14;
+    }
+    .p5__av {
+      position: relative; z-index: 1;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: rgba(255,255,255,.5);
+    }
+    .p5__eyebrow {
+      font-size: 7px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(88,86,214,0.9); margin-bottom: 6px;
+    }
+    .p5__name {
+      font-size: 22px; font-weight: 700; color: transparent;
+      background: linear-gradient(90deg, #fff 20%, #a78bfa 50%, #60a5fa 70%, #fff 90%);
+      background-size: 200%;
+      -webkit-background-clip: text; background-clip: text;
+      letter-spacing: -0.03em; line-height: 1.1;
+      animation: sh 3s linear infinite;
+    }
+    @keyframes sh { 0%{background-position:100%}100%{background-position:-100%} }
+    .p5__sub { font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 6px; }
+    .p5__badges { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+    .p5__badge {
+      font-size: 7px; padding: 3px 8px; border-radius: 99px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+    }
+    .p5__btns { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+    .p5__btn { font-size: 7px; padding: 5px 12px; border-radius: 99px; }
+    .p5__btn--fill { background: rgba(88,86,214,0.8); color: #fff; border: none; }
+    .p5__btn--ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+    .p5__stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+    .p5__stat { text-align: center; }
+    .p5__sn { font-size: 14px; font-weight: 700; color: #fff; }
+    .p5__sl { font-size: 6px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 1px; }
+
+    /* ═══════ OPTION 6 — MAGAZINE / EDITORIAL ═══════ */
+    .p6 {
+      background: #fff;
+      display: flex;
+      position: relative; overflow: hidden;
+    }
+    .p6__left {
+      width: 52%; background: #1d1d1f;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      position: relative; overflow: hidden;
+    }
+    .p6__left-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #0066cc 0%, #1d1d1f 55%);
+      opacity: 0.5;
+    }
+    .p6__big {
+      position: absolute; top: -10px; left: -4px;
+      font-size: 80px; font-weight: 900;
+      color: rgba(255,255,255,0.04);
+      line-height: 1; letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+    .p6__tag {
+      position: relative; z-index: 1;
+      display: inline-block;
+      font-size: 7px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #2997ff;
+      border: 1px solid rgba(41,151,255,0.4);
+      padding: 2px 7px; border-radius: 3px; margin-bottom: 6px;
+      width: fit-content;
+    }
+    .p6__h1 {
+      position: relative; z-index: 1;
+      font-size: 22px; font-weight: 800; color: #fff;
+      line-height: 1; letter-spacing: -0.04em;
+    }
+    .p6__h1 span { display: block; color: #2997ff; font-size: 14px; font-weight: 400; margin-bottom: 2px; letter-spacing: 0; }
+    .p6__right {
+      flex: 1;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 18px;
+    }
+    .p6__issue { font-size: 7px; color: #7a7a7a; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .p6__excerpt { font-size: 9px; color: #1d1d1f; line-height: 1.7; }
+    .p6__excerpt strong { font-weight: 700; }
+    .p6__rule { width: 24px; height: 2px; background: #0066cc; margin: 10px 0; }
+    .p6__meta { font-size: 7px; color: #7a7a7a; }
+    .p6__meta span { color: #0066cc; font-weight: 600; }
+    .p6__btns { display: flex; gap: 6px; margin-top: 12px; }
+    .p6__btn { font-size: 7px; padding: 5px 10px; border-radius: 3px; }
+    .p6__btn--dark { background: #1d1d1f; color: #fff; }
+    .p6__btn--line { background: transparent; border: 1px solid #1d1d1f; color: #1d1d1f; }
+
+    /* Selected badge */
+    .selected-label {
+      position: absolute; top: 8px; right: 8px;
+      background: #34c759; color: #fff;
+      font-size: 9px; font-weight: 700; padding: 3px 8px;
+      border-radius: 99px; z-index: 10;
+      display: none;
+    }
+    .card.selected .selected-label { display: block; }
+    .card.selected { box-shadow: 0 0 0 3px #0066cc, 0 12px 40px rgba(0,102,204,0.2); }
+
+    /* Bottom bar */
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid #e0e0e0;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 100;
+    }
+    .bottom-bar__text { font-size: 14px; color: #1d1d1f; font-weight: 500; }
+    .bottom-bar__text span { color: #0066cc; font-weight: 700; }
+    .bottom-bar__btn {
+      background: #0066cc; color: #fff;
+      font-size: 14px; font-weight: 600; padding: 10px 24px;
+      border-radius: 99px; border: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .bottom-bar__btn:hover { background: #0071e3; }
+    .bottom-bar__btn:disabled { background: #ccc; cursor: default; }
+  </style>
+</head>
+<body>
+
+  <h1>Pilih Gaya Hero Section</h1>
+  <p class="subtitle">Klik salah satu preview untuk memilih. Scroll untuk melihat semua opsi.</p>
+
+  <div class="grid">
+
+    <!-- ═══ OPTION 1 ═══ -->
+    <div class="card" onclick="select(this,'Split Screen — Dua Kolom')">
+      <div class="card__label">
+        <div class="card__num">1</div>
+        <div>
+          <div class="card__name">Split Screen — Kartu Profil + Konten</div>
+          <div class="card__desc">Avatar card di kiri (dark, glow, animasi), teks narasi di kanan</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p1">
+          <div class="p1__left">
+            <div class="p1__glow"></div>
+            <div class="p1__card">
+              <div class="p1__avatar">AF</div>
+              <div class="p1__name">Ahmad Fadhil K.</div>
+              <div class="p1__role">Calon Guru TKJ · PPG 2024</div>
+              <div class="p1__tags">
+                <span class="p1__tag">PPG Prajabatan</span>
+                <span class="p1__tag">SMK N 2 MKS</span>
+                <span class="p1__tag">TKJ</span>
+              </div>
+            </div>
+          </div>
+          <div class="p1__right">
+            <p class="p1__eyebrow">E-Portfolio Mahasiswa</p>
+            <h2 class="p1__h1">Membangun<br>Generasi Digital</h2>
+            <div class="p1__divider"></div>
+            <ul class="p1__bullets">
+              <li>3 Siklus PPL Terbimbing</li>
+              <li>6 Artefak Pembelajaran</li>
+              <li>Skor rata-rata 90+</li>
+              <li>45 Jam Mengajar</li>
+            </ul>
+            <div class="p1__btns">
+              <button class="p1__btn">Lihat Profil</button>
+              <button class="p1__btn p1__btn--ghost">Jelajahi Artefak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OPTION 2 ═══ -->
+    <div class="card" onclick="select(this,'Terminal / Code Aesthetic')">
+      <div class="card__label">
+        <div class="card__num">2</div>
+        <div>
+          <div class="card__name">Terminal / Code — Estetika Developer</div>
+          <div class="card__desc">Window terminal animasi, cocok untuk mahasiswa TKJ</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p2">
+          <div class="p2__scanlines"></div>
+          <div class="p2__window">
+            <div class="p2__bar">
+              <div class="p2__dot" style="background:#ff5f57"></div>
+              <div class="p2__dot" style="background:#febc2e"></div>
+              <div class="p2__dot" style="background:#28c840"></div>
+              <span class="p2__title">eportfolio.sh — PPG Prajabatan 2024</span>
+            </div>
+            <div class="p2__body">
+              <div class="p2__line"><span class="p2__prompt">~ $ </span><span class="p2__cmd">./load_profile.sh</span></div>
+              <div class="p2__line p2__out">Loading portfolio data...</div>
+              <div class="p2__line"><span class="p2__key">name</span><span class="p2__out">: </span><span class="p2__str">"Ahmad Fadhil Kurniawan"</span></div>
+              <div class="p2__line"><span class="p2__key">program</span><span class="p2__out">: </span><span class="p2__val">"PPG Prajabatan TKJ"</span></div>
+              <div class="p2__line"><span class="p2__key">school</span><span class="p2__out">: </span><span class="p2__val">"SMK Negeri 2 Makassar"</span></div>
+              <div class="p2__line"><span class="p2__key">cycles</span><span class="p2__out">: </span><span class="p2__str">3</span><span class="p2__out">  | </span><span class="p2__key">artifacts</span><span class="p2__out">: </span><span class="p2__str">6</span></div>
+              <div class="p2__line"><span class="p2__key">avg_score</span><span class="p2__out">: </span><span class="p2__str" style="color:#30d158;">90.2</span></div>
+              <div class="p2__line"><span class="p2__prompt">~ $ </span><span class="p2__cursor-blink"></span></div>
+            </div>
+            <div class="p2__btns">
+              <button class="p2__pill p2__pill--blue">./view_profile</button>
+              <button class="p2__pill p2__pill--ghost">./artifacts --list</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OPTION 3 ═══ -->
+    <div class="card" onclick="select(this,'Bento Grid')">
+      <div class="card__label">
+        <div class="card__num">3</div>
+        <div>
+          <div class="card__name">Bento Grid — Kotak-Kotak Modular</div>
+          <div class="card__desc">Tren desain 2024, setiap info dalam kotak sendiri, clean & modern</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p3">
+          <div class="p3__cell p3__c1">
+            <div class="p3__avatar">AF</div>
+            <div class="p3__c1-name">Ahmad Fadhil K.</div>
+            <div class="p3__c1-role">Calon Guru TKJ · 2024</div>
+          </div>
+          <div class="p3__cell p3__c2">
+            <div class="p3__c2-num">3</div>
+            <div class="p3__c2-lbl">Siklus PPL</div>
+          </div>
+          <div class="p3__cell p3__c3">
+            <div class="p3__c3-num">90+</div>
+            <div class="p3__c3-lbl">Skor Rata-rata</div>
+          </div>
+          <div class="p3__cell p3__c4">
+            <div class="p3__c4-title">PPG Prajabatan Universitas Negeri Makassar</div>
+            <div class="p3__c4-sub">SMK Negeri 2 Makassar · Teknik Komputer & Jaringan</div>
+            <div class="p3__pills">
+              <span class="p3__pill">Kurikulum Merdeka</span>
+              <span class="p3__pill p3__pill--blue">PjBL</span>
+              <span class="p3__pill p3__pill--blue">Diferensiasi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OPTION 4 ═══ -->
+    <div class="card" onclick="select(this,'Cinematic Minimal')">
+      <div class="card__label">
+        <div class="card__num">4</div>
+        <div>
+          <div class="card__name">Cinematic Minimal — Pure Black & White</div>
+          <div class="card__desc">Elegan, bold, tipografi dominan, garis geometri halus</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p4">
+          <div class="p4__bg-text">PORTFOLIO</div>
+          <div class="p4__line p4__line--1"></div>
+          <div class="p4__line p4__line--2"></div>
+          <div class="p4__line p4__line--v"></div>
+          <div class="p4__corner p4__corner--tl"></div>
+          <div class="p4__corner p4__corner--tr"></div>
+          <div class="p4__corner p4__corner--bl"></div>
+          <div class="p4__corner p4__corner--br"></div>
+          <div class="p4__inner">
+            <p class="p4__eyebrow">E-Portfolio · PPG Prajabatan 2024</p>
+            <h1 class="p4__name">AHMAD<br>FADHIL</h1>
+            <div class="p4__dash"></div>
+            <p class="p4__sub">Calon Guru Teknik Komputer dan Jaringan</p>
+            <div class="p4__stats">
+              <div class="p4__stat"><div class="p4__stat-num">3</div><div class="p4__stat-lbl">Siklus</div></div>
+              <div class="p4__stat"><div class="p4__stat-num">6</div><div class="p4__stat-lbl">Artefak</div></div>
+              <div class="p4__stat"><div class="p4__stat-num">90+</div><div class="p4__stat-lbl">Skor</div></div>
+            </div>
+            <div class="p4__btns">
+              <button class="p4__btn p4__btn--fill">Lihat Profil</button>
+              <button class="p4__btn p4__btn--ghost">Jelajahi Artefak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OPTION 5 ═══ -->
+    <div class="card" onclick="select(this,'Gradient Mesh')">
+      <div class="card__label">
+        <div class="card__num">5</div>
+        <div>
+          <div class="card__name">Gradient Mesh — Aurora / Neon Glow</div>
+          <div class="card__desc">Warna mesh biru-ungu-hijau, teks shimmer, efek cahaya organik</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p5">
+          <div class="p5__mesh"></div>
+          <div class="p5__noise"></div>
+          <div class="p5__inner">
+            <div class="p5__avatar-wrap">
+              <div class="p5__ring"></div>
+              <div class="p5__ring-inner"></div>
+              <div class="p5__av">AF</div>
+            </div>
+            <p class="p5__eyebrow">E-Portfolio PPG Prajabatan</p>
+            <h1 class="p5__name">Ahmad Fadhil<br>Kurniawan</h1>
+            <p class="p5__sub">Calon Guru Teknik Komputer & Jaringan · UNM 2024</p>
+            <div class="p5__badges">
+              <span class="p5__badge">PPG Prajabatan</span>
+              <span class="p5__badge">SMK N 2 Makassar</span>
+              <span class="p5__badge">TKJ</span>
+            </div>
+            <div class="p5__btns">
+              <button class="p5__btn p5__btn--fill">Lihat Profil</button>
+              <button class="p5__btn p5__btn--ghost">Artefak</button>
+            </div>
+            <div class="p5__stats">
+              <div class="p5__stat"><div class="p5__sn">3</div><div class="p5__sl">Siklus</div></div>
+              <div class="p5__stat"><div class="p5__sn">6</div><div class="p5__sl">Artefak</div></div>
+              <div class="p5__stat"><div class="p5__sn">90+</div><div class="p5__sl">Skor</div></div>
+              <div class="p5__stat"><div class="p5__sn">45j</div><div class="p5__sl">Mengajar</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OPTION 6 ═══ -->
+    <div class="card" onclick="select(this,'Magazine Editorial')">
+      <div class="card__label">
+        <div class="card__num">6</div>
+        <div>
+          <div class="card__name">Magazine Editorial — Teks Besar + Foto</div>
+          <div class="card__desc">Gaya majalah, bold typography, kontras tinggi light/dark</div>
+        </div>
+      </div>
+      <div class="preview">
+        <span class="selected-label">✓ Dipilih</span>
+        <div class="p6">
+          <div class="p6__left">
+            <div class="p6__left-bg"></div>
+            <span class="p6__big">AF</span>
+            <div class="p6__tag">PPG Prajabatan · 2024</div>
+            <h1 class="p6__h1">
+              <span>Ahmad Fadhil</span>
+              KURNIAWAN
+            </h1>
+          </div>
+          <div class="p6__right">
+            <p class="p6__issue">E-Portfolio · Teknik Komputer & Jaringan</p>
+            <p class="p6__excerpt">
+              Calon guru profesional dari <strong>Makassar</strong> yang membangun
+              lingkungan belajar inklusif berbasis proyek nyata, menjembatani
+              dunia industri dengan ruang kelas SMK.
+            </p>
+            <div class="p6__rule"></div>
+            <p class="p6__meta">
+              <span>SMK Negeri 2 Makassar</span> · Universitas Negeri Makassar<br>
+              3 Siklus PPL · 6 Artefak · Skor 90+
+            </p>
+            <div class="p6__btns">
+              <button class="p6__btn p6__btn--dark">Lihat Profil</button>
+              <button class="p6__btn p6__btn--line">Artefak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bottom-bar__text" id="barText">Pilih salah satu hero di atas</div>
+    <button class="bottom-bar__btn" id="confirmBtn" disabled onclick="confirm()">Pilih Gaya Ini</button>
+  </div>
+
+  <script>
+    let chosen = '';
+    function select(card, name) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      chosen = name;
+      document.getElementById('barText').innerHTML = `Dipilih: <span>${name}</span>`;
+      document.getElementById('confirmBtn').disabled = false;
+    }
+    function confirm() {
+      if (!chosen) return;
+      alert('Kamu memilih: "' + chosen + '".\nSalin nama ini dan beritahu Claude untuk generate halaman dengan gaya tersebut!');
+    }
+  </script>
+</body>
+</html>
