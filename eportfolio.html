@@ -91,71 +91,39 @@
       background: rgba(0,0,0,0.85);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      height: 44px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 22px;
+      padding: 0 28px;
       transition: background 0.3s;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .global-nav.solid { background: var(--surface-black); }
     .global-nav__brand {
       color: var(--on-dark);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: -0.12px;
+      letter-spacing: -0.2px;
       text-decoration: none;
+      flex-shrink: 0;
     }
     .global-nav__links {
       display: flex;
-      gap: 20px;
+      gap: 24px;
       list-style: none;
+      align-items: center;
     }
     .global-nav__links a {
       color: rgba(255,255,255,0.75);
-      font-size: 12px;
+      font-size: 13px;
       letter-spacing: -0.12px;
       text-decoration: none;
       transition: color 0.2s;
     }
     .global-nav__links a:hover { color: #fff; }
+    .global-nav__links .btn-pill { margin-left: 4px; }
     @media (max-width: 640px) { .global-nav__links { display: none; } }
-
-    /* ──────────────────────────────────────
-       SUB-NAV
-    ────────────────────────────────────── */
-    .sub-nav {
-      position: sticky;
-      top: 44px;
-      z-index: 900;
-      background: rgba(245,245,247,0.8);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-    }
-    .sub-nav__title {
-      font-size: 21px;
-      font-weight: 600;
-      letter-spacing: 0.231px;
-    }
-    .sub-nav__links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-      align-items: center;
-    }
-    .sub-nav__links a {
-      color: var(--primary);
-      font-size: 14px;
-      letter-spacing: -0.224px;
-      text-decoration: none;
-    }
-    @media (max-width: 640px) { .sub-nav__links { display: none; } }
 
     /* ──────────────────────────────────────
        BUTTONS
@@ -280,8 +248,8 @@
        HERO — SPLIT + MESH + PARTICLES
     ────────────────────────────────────── */
     .hero {
-      margin-top: 96px;
-      min-height: calc(100vh - 96px);
+      margin-top: 52px;
+      min-height: calc(100vh - 52px);
       background: #06060f;
       color: var(--on-dark);
       display: flex;
@@ -776,34 +744,16 @@
     .artifact-link::after { content: "→"; }
 
     /* Video placeholder */
-    .video-placeholder {
-      background: var(--surface-tile-1);
+    .video-embed {
       border-radius: 12px;
+      overflow: hidden;
       aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 10px;
-      color: var(--body-muted);
-      font-size: 13px;
-      cursor: pointer;
-      transition: opacity 0.2s;
+      background: var(--surface-tile-1);
     }
-    .video-placeholder:hover { opacity: 0.8; }
-    .video-play-btn {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      transition: transform 0.25s var(--ease-spring), background 0.2s;
-    }
-    .video-placeholder:hover .video-play-btn {
-      transform: scale(1.15);
-      background: rgba(255,255,255,0.2);
+    .video-embed iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
     /* ──────────────────────────────────────
@@ -1054,37 +1004,105 @@
        FOOTER
     ────────────────────────────────────── */
     footer {
-      background: var(--canvas-parchment);
-      padding: 64px 22px 40px;
+      background: #0a0a0f;
+      padding: 56px 28px 36px;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
     .footer-inner {
-      max-width: 980px;
+      max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; gap: 40px; } }
+
+    /* left: institution logos */
+    .footer-logos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .footer-logos__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 4px;
+    }
+    .footer-logo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .footer-logo-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .footer-logo-item:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(0,102,204,0.4);
+    }
+    .footer-logo-item__icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .footer-logo-item__name {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.35;
+    }
+
+    /* right: sitemap + kontak */
+    .footer-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 32px;
     }
-    @media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
-    .footer-col__title { font-size: 14px; font-weight: 600; letter-spacing: -0.224px; margin-bottom: 12px; }
+    @media (max-width: 480px) { .footer-right { grid-template-columns: 1fr; } }
+    .footer-col__title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 14px;
+    }
     .footer-col__links { list-style: none; display: flex; flex-direction: column; gap: 0; }
     .footer-col__links a {
-      font-size: 17px;
-      line-height: 2.41;
-      color: var(--ink-muted-80);
+      font-size: 14px;
+      line-height: 2.2;
+      color: rgba(255,255,255,0.65);
       text-decoration: none;
       transition: color 0.2s;
     }
-    .footer-col__links a:hover { color: var(--primary); }
+    .footer-col__links a:hover { color: #fff; }
+
     .footer-legal {
-      max-width: 980px;
-      margin: 32px auto 0;
+      max-width: 1100px;
+      margin: 40px auto 0;
       padding-top: 20px;
-      border-top: 1px solid var(--hairline);
+      border-top: 1px solid rgba(255,255,255,0.07);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
     }
+    .footer-legal .fine-print { color: rgba(255,255,255,0.3); }
 
     /* ──────────────────────────────────────
        FLOATING BACK-TO-TOP
@@ -1116,7 +1134,7 @@
     ────────────────────────────────────── */
     .read-progress {
       position: fixed;
-      top: 44px; left: 0; right: 0;
+      top: 52px; left: 0; right: 0;
       height: 2px;
       background: rgba(255,255,255,0);
       z-index: 999;
@@ -1137,26 +1155,17 @@
   <!-- Back to top -->
   <a href="#" class="back-top" id="backTop">↑</a>
 
-  <!-- ── GLOBAL NAV ── -->
+  <!-- ── UNIFIED NAV ── -->
   <nav class="global-nav" id="globalNav">
-    <a class="global-nav__brand" href="#">E-Portfolio PPG</a>
+    <a class="global-nav__brand" href="#">E-Portfolio PPG · PPG Prajabatan 2024</a>
     <ul class="global-nav__links">
       <li><a href="#profil">Profil</a></li>
       <li><a href="#artefak">Artefak</a></li>
-      <li><a href="#penilaian">Penilaian</a></li>
+      <li><a href="#penilaian">Lampiran 7 &amp; 8</a></li>
       <li><a href="#model-guru">Model Guru</a></li>
+      <li><a class="btn-pill btn-pill--sm" href="#model-guru">Model Guru →</a></li>
     </ul>
   </nav>
-
-  <!-- ── SUB-NAV ── -->
-  <div class="sub-nav">
-    <span class="sub-nav__title">PPG Prajabatan 2024</span>
-    <ul class="sub-nav__links">
-      <li><a href="#artefak">Artefak</a></li>
-      <li><a href="#penilaian">Lampiran 7 & 8</a></li>
-      <li><a class="btn-pill btn-pill--sm" href="#model-guru">Model Guru</a></li>
-    </ul>
-  </div>
 
   <!-- ════════════════════════════════════
        HERO
@@ -1376,7 +1385,7 @@
             <span class="tag">PjBL</span>
             <span class="tag">Diferensiasi</span>
           </div>
-          <a href="#" class="artifact-link">Unduh RPP</a>
+          <a href="https://drive.google.com/file/d/GANTI_DENGAN_ID_FILE_RPP/view" target="_blank" rel="noopener" class="artifact-link">Unduh RPP ↗</a>
         </div>
 
         <div class="artifact-card reveal d2">
@@ -1393,7 +1402,7 @@
             <span class="tag">Packet Tracer</span>
             <span class="tag">Interaktif</span>
           </div>
-          <a href="#" class="artifact-link">Lihat Media</a>
+          <a href="https://drive.google.com/file/d/GANTI_DENGAN_ID_FILE_MEDIA/view" target="_blank" rel="noopener" class="artifact-link">Lihat Media ↗</a>
         </div>
 
         <div class="artifact-card reveal d3">
@@ -1410,7 +1419,7 @@
             <span class="tag">Metakognisi</span>
             <span class="tag">3 Level</span>
           </div>
-          <a href="#" class="artifact-link">Unduh LKPD</a>
+          <a href="https://drive.google.com/file/d/GANTI_DENGAN_ID_FILE_LKPD/view" target="_blank" rel="noopener" class="artifact-link">Unduh LKPD ↗</a>
         </div>
 
         <div class="artifact-card reveal d4">
@@ -1427,7 +1436,7 @@
             <span class="tag">3 Sampel</span>
             <span class="tag">Umpan Balik</span>
           </div>
-          <a href="#" class="artifact-link">Lihat Sampel</a>
+          <a href="https://drive.google.com/file/d/GANTI_DENGAN_ID_FILE_SAMPEL/view" target="_blank" rel="noopener" class="artifact-link">Lihat Sampel ↗</a>
         </div>
 
         <div class="artifact-card reveal d5">
@@ -1444,7 +1453,7 @@
             <span class="tag">Rubrik</span>
             <span class="tag">Autentik</span>
           </div>
-          <a href="#" class="artifact-link">Unduh Instrumen</a>
+          <a href="https://drive.google.com/file/d/GANTI_DENGAN_ID_FILE_INSTRUMEN/view" target="_blank" rel="noopener" class="artifact-link">Unduh Instrumen ↗</a>
         </div>
 
         <div class="artifact-card reveal d6">
@@ -1452,16 +1461,22 @@
           <div class="artifact-card__type">Rekaman Pembelajaran</div>
           <div class="artifact-card__title">Video Praktik Mengajar — Siklus 2: Konfigurasi Router OSPF</div>
           <div class="artifact-card__desc">Rekaman 45 menit pembelajaran di kelas X TKJ 2. Digunakan sebagai bahan refleksi diri dan evaluasi oleh Guru Pamong dan DPL via platform LMS institusi.</div>
-          <div class="video-placeholder">
-            <div class="video-play-btn">▶</div>
-            <span>Pratinjau Rekaman Mengajar</span>
+          <div class="video-embed">
+            <iframe
+              src="https://www.youtube.com/embed/GANTI_DENGAN_ID_VIDEO"
+              title="Video Praktik Mengajar — Siklus 2: Konfigurasi Router OSPF"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
           </div>
           <div class="tag-row">
             <span class="tag tag--blue">Siklus 2</span>
             <span class="tag">OSPF</span>
             <span class="tag">Refleksi</span>
           </div>
-          <a href="#" class="artifact-link">Tonton Video</a>
+          <a href="https://www.youtube.com/watch?v=GANTI_DENGAN_ID_VIDEO" target="_blank" rel="noopener" class="artifact-link">Tonton di YouTube ↗</a>
         </div>
 
       </div>
@@ -1729,43 +1744,55 @@
   ═════════════════════════════════════ -->
   <footer id="kontak">
     <div class="footer-inner">
-      <div>
-        <p class="footer-col__title">E-Portfolio</p>
-        <ul class="footer-col__links">
-          <li><a href="#profil">Profil Mahasiswa</a></li>
-          <li><a href="#artefak">Artefak Pembelajaran</a></li>
-          <li><a href="#penilaian">Lampiran 7 & 8</a></li>
-          <li><a href="#model-guru">Model Guru</a></li>
-        </ul>
+
+      <!-- LEFT: institution logos -->
+      <div class="footer-logos">
+        <p class="footer-logos__eyebrow">Institusi &amp; Program</p>
+        <div class="footer-logo-grid">
+          <div class="footer-logo-item">
+            <div class="footer-logo-item__icon">🏛️</div>
+            <span class="footer-logo-item__name">Kemendikdasmen</span>
+          </div>
+          <div class="footer-logo-item">
+            <div class="footer-logo-item__icon">🎓</div>
+            <span class="footer-logo-item__name">PPG Prajabatan 2024</span>
+          </div>
+          <div class="footer-logo-item">
+            <div class="footer-logo-item__icon">🏫</div>
+            <span class="footer-logo-item__name">Universitas Islam Makassar</span>
+          </div>
+          <div class="footer-logo-item">
+            <div class="footer-logo-item__icon">🖥️</div>
+            <span class="footer-logo-item__name">SMK Negeri 2 Makassar</span>
+          </div>
+        </div>
       </div>
-      <div>
-        <p class="footer-col__title">Program</p>
-        <ul class="footer-col__links">
-          <li><a href="#">PPG Prajabatan 2024</a></li>
-          <li><a href="#">SMK Negeri 2 Makassar</a></li>
-          <li><a href="#">Universitas Negeri Makassar</a></li>
-          <li><a href="#">TKJ — Teknik Komputer & Jaringan</a></li>
-        </ul>
+
+      <!-- RIGHT: sitemap + kontak -->
+      <div class="footer-right">
+        <div>
+          <p class="footer-col__title">E-Portfolio</p>
+          <ul class="footer-col__links">
+            <li><a href="#profil">Profil Mahasiswa</a></li>
+            <li><a href="#artefak">Artefak Pembelajaran</a></li>
+            <li><a href="#penilaian">Lampiran 7 &amp; 8</a></li>
+            <li><a href="#model-guru">Model Guru</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col__title">Kontak</p>
+          <ul class="footer-col__links">
+            <li><a href="mailto:mfhisyam5@gmail.com">Email</a></li>
+            <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="#" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="#artefak">Unduh Artefak</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <p class="footer-col__title">Kontak</p>
-        <ul class="footer-col__links">
-          <li><a href="#">ahmad.fadhil@unm.ac.id</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">GitHub</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-col__title">Dokumen</p>
-        <ul class="footer-col__links">
-          <li><a href="#">Unduh Semua RPP</a></li>
-          <li><a href="#">Laporan PPL</a></li>
-          <li><a href="#">Rekaman Mengajar</a></li>
-        </ul>
-      </div>
+
     </div>
     <div class="footer-legal">
-      <p class="fine-print">© 2024 Ahmad Fadhil Kurniawan · E-Portfolio PPG Prajabatan · Universitas Negeri Makassar</p>
+      <p class="fine-print">© 2024 Ahmad Fadhil Kurniawan · E-Portfolio PPG Prajabatan</p>
       <p class="fine-print">Data bersifat dummy — untuk keperluan pengembangan portofolio</p>
     </div>
   </footer>
