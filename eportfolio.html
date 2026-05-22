@@ -88,42 +88,70 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      height: 52px;
+      background: rgba(8,8,18,0.88);
+      backdrop-filter: saturate(200%) blur(28px);
+      -webkit-backdrop-filter: saturate(200%) blur(28px);
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px;
-      transition: background 0.3s;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 44px;
+      transition: background 0.35s, box-shadow 0.35s;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.35);
     }
-    .global-nav.solid { background: var(--surface-black); }
+    .global-nav.solid {
+      background: rgba(8,8,18,0.97);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 12px 40px rgba(0,0,0,0.5);
+    }
     .global-nav__brand {
       color: var(--on-dark);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
       text-decoration: none;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .global-nav__brand::before {
+      content: '';
+      display: block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px rgba(0,102,204,0.8);
+      flex-shrink: 0;
+    }
+    .global-nav__divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.12);
+      margin: 0 4px;
     }
     .global-nav__links {
       display: flex;
-      gap: 24px;
+      gap: 6px;
       list-style: none;
       align-items: center;
     }
-    .global-nav__links a {
-      color: rgba(255,255,255,0.75);
-      font-size: 13px;
-      letter-spacing: -0.12px;
+    .global-nav__links li a:not(.btn-pill) {
+      color: rgba(255,255,255,0.7);
+      font-size: 13.5px;
+      letter-spacing: -0.15px;
       text-decoration: none;
-      transition: color 0.2s;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
     }
-    .global-nav__links a:hover { color: #fff; }
-    .global-nav__links .btn-pill { margin-left: 4px; }
-    @media (max-width: 640px) { .global-nav__links { display: none; } }
+    .global-nav__links li a:not(.btn-pill):hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+    .global-nav__links .btn-pill { margin-left: 8px; }
+    @media (max-width: 768px) { .global-nav__links { display: none; } }
+    @media (max-width: 768px) { .global-nav { padding: 0 22px; } }
 
     /* ──────────────────────────────────────
        BUTTONS
@@ -248,8 +276,8 @@
        HERO — SPLIT + MESH + PARTICLES
     ────────────────────────────────────── */
     .hero {
-      margin-top: 52px;
-      min-height: calc(100vh - 52px);
+      margin-top: 68px;
+      min-height: calc(100vh - 68px);
       background: #06060f;
       color: var(--on-dark);
       display: flex;
@@ -1053,12 +1081,18 @@
       background: rgba(255,255,255,0.08);
       border-color: rgba(0,102,204,0.4);
     }
-    .footer-logo-item__icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.08);
+    .footer-logo-item__img-wrap {
+      width: 68px; height: 68px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.96);
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .footer-logo-item__img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .footer-logo-item__name {
       font-size: 11px;
@@ -1134,7 +1168,7 @@
     ────────────────────────────────────── */
     .read-progress {
       position: fixed;
-      top: 52px; left: 0; right: 0;
+      top: 68px; left: 0; right: 0;
       height: 2px;
       background: rgba(255,255,255,0);
       z-index: 999;
@@ -1157,13 +1191,14 @@
 
   <!-- ── UNIFIED NAV ── -->
   <nav class="global-nav" id="globalNav">
-    <a class="global-nav__brand" href="#">E-Portfolio PPG · PPG Prajabatan 2024</a>
+    <a class="global-nav__brand" href="#">E-Portfolio PPG</a>
+    <span class="global-nav__divider" aria-hidden="true"></span>
     <ul class="global-nav__links">
       <li><a href="#profil">Profil</a></li>
       <li><a href="#artefak">Artefak</a></li>
       <li><a href="#penilaian">Lampiran 7 &amp; 8</a></li>
       <li><a href="#model-guru">Model Guru</a></li>
-      <li><a class="btn-pill btn-pill--sm" href="#model-guru">Model Guru →</a></li>
+      <li><a class="btn-pill btn-pill--sm" href="#kontak">Kontak</a></li>
     </ul>
   </nav>
 
@@ -1750,20 +1785,28 @@
         <p class="footer-logos__eyebrow">Institusi &amp; Program</p>
         <div class="footer-logo-grid">
           <div class="footer-logo-item">
-            <div class="footer-logo-item__icon">🏛️</div>
+            <div class="footer-logo-item__img-wrap">
+              <img src="https://bpmp-papuabarat.kemendikdasmen.go.id/wp-content/uploads/2025/01/LOGO-RAMAH-1536x768.png" alt="Logo Kemendikdasmen" loading="lazy">
+            </div>
             <span class="footer-logo-item__name">Kemendikdasmen</span>
           </div>
           <div class="footer-logo-item">
-            <div class="footer-logo-item__icon">🎓</div>
+            <div class="footer-logo-item__img-wrap">
+              <img src="https://scontent.fupg7-1.fna.fbcdn.net/v/t39.30808-6/258328307_100888955765955_5051735989249988170_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=iHeLBcI_56EQ7kNvwGW0Tci&_nc_oc=Ado6bZnQFRWKZT2lD7bgAccQSeBHZczDSfYZHlbamH80g00eAgB4vAB725RJbxb3AgM&_nc_zt=23&_nc_ht=scontent.fupg7-1.fna&oh=00_Af71GSKnFDJxXH3lg6HbhODxZOKg101Z0QWYq2rc08tQuA&oe=6A169AA3" alt="Logo PPG Prajabatan" loading="lazy">
+            </div>
             <span class="footer-logo-item__name">PPG Prajabatan 2024</span>
           </div>
           <div class="footer-logo-item">
-            <div class="footer-logo-item__icon">🏫</div>
+            <div class="footer-logo-item__img-wrap">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/LOGO_UIM_.png" alt="Logo Universitas Islam Makassar" loading="lazy">
+            </div>
             <span class="footer-logo-item__name">Universitas Islam Makassar</span>
           </div>
           <div class="footer-logo-item">
-            <div class="footer-logo-item__icon">🖥️</div>
-            <span class="footer-logo-item__name">SMK Negeri 2 Makassar</span>
+            <div class="footer-logo-item__img-wrap">
+              <img src="https://instagram.fupg7-1.fna.fbcdn.net/v/t51.2885-19/462062683_1588797805058299_4413510199801536619_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4zOTcuYzIifQ&_nc_ht=instagram.fupg7-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gGgKBJHNzIybygfLP6J31oH0ndeDu0K-NnShsFdr6SWa0LPecv2Rm8hjqSUEL0CyOo&_nc_ohc=3OMATX1MPjYQ7kNvwEDYm98&edm=APs17CUBAAAA&ccb=7-5&oh=00_Af62vEk7IU9x18NKLjxZtIH1yxrUqDpynl-Cif4ZVC-_4g&oe=6A16A064&_nc_sid=10d13b" alt="Logo SMK 10 Makassar" loading="lazy">
+            </div>
+            <span class="footer-logo-item__name">SMK 10 Makassar</span>
           </div>
         </div>
       </div>
