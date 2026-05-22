@@ -277,22 +277,22 @@
     }
 
     /* ──────────────────────────────────────
-       HERO — REDESIGNED
+       HERO — SPLIT + MESH + PARTICLES
     ────────────────────────────────────── */
     .hero {
       margin-top: 96px;
       min-height: calc(100vh - 96px);
-      background: #050507;
+      background: #06060f;
       color: var(--on-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 80px 22px 120px;
+      padding: 60px 48px 100px;
       position: relative;
       overflow: hidden;
     }
 
-    /* Canvas particle bg */
+    /* Layer 0 — canvas particles */
     #heroCanvas {
       position: absolute;
       inset: 0;
@@ -300,331 +300,319 @@
       z-index: 0;
     }
 
-    /* Ambient glow blobs */
-    .hero__blob {
+    /* Layer 1 — gradient mesh overlay */
+    .hero__mesh {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
+      inset: 0;
+      z-index: 1;
       pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 70% at 12% 45%, rgba(88,86,214,0.30) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 60% at 88% 20%, rgba(0,102,204,0.26) 0%, transparent 58%),
+        radial-gradient(ellipse 45% 50% at 58% 88%, rgba(48,209,88,0.13) 0%, transparent 58%),
+        radial-gradient(ellipse 35% 40% at 30% 10%, rgba(255,159,10,0.08) 0%, transparent 55%);
+      animation: mesh-breathe 9s ease-in-out infinite;
     }
-    .hero__blob--1 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,102,204,0.28) 0%, transparent 70%);
-      top: -160px; left: -140px;
-      animation: blob-drift 18s ease-in-out infinite;
-    }
-    .hero__blob--2 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(94,92,230,0.22) 0%, transparent 70%);
-      bottom: -100px; right: -120px;
-      animation: blob-drift 14s ease-in-out infinite reverse;
-      animation-delay: -5s;
-    }
-    .hero__blob--3 {
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, rgba(48,209,88,0.14) 0%, transparent 70%);
-      top: 40%; left: 55%;
-      animation: blob-drift 20s ease-in-out infinite;
-      animation-delay: -10s;
-    }
-    @keyframes blob-drift {
-      0%,100% { transform: translate(0,0) scale(1); }
-      25%      { transform: translate(30px,-40px) scale(1.06); }
-      50%      { transform: translate(-20px,30px) scale(0.96); }
-      75%      { transform: translate(40px,20px) scale(1.04); }
+    @keyframes mesh-breathe {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.65; }
     }
 
-    /* Subtle grid overlay */
+    /* Layer 2 — subtle grid */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-      z-index: 0;
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 2;
       pointer-events: none;
     }
 
-    /* Mouse parallax layer */
+    /* Parallax layer */
     .hero__parallax {
       position: relative;
-      z-index: 2;
-      will-change: transform;
-      transition: transform 0.12s linear;
-    }
-
-    /* Centered content wrapper */
-    .hero__inner {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 860px;
+      z-index: 10;
       width: 100%;
+      max-width: 1200px;
+      will-change: transform;
     }
 
-    /* Avatar container */
+    /* ── SPLIT LAYOUT ── */
+    .hero__split {
+      display: flex;
+      align-items: center;
+      gap: 72px;
+    }
+
+    /* ── LEFT: GLASS PROFILE CARD ── */
+    .hero__left {
+      flex-shrink: 0;
+      width: 320px;
+    }
+    .hero__card {
+      background: rgba(255,255,255,0.042);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-radius: 28px;
+      padding: 36px 26px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.35s;
+    }
+    .hero__card::before {
+      content: '';
+      position: absolute;
+      inset: 0; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(155deg, rgba(88,86,214,0.09) 0%, transparent 45%, rgba(0,102,204,0.07) 100%);
+    }
+
+    /* Avatar assembly */
     .hero__avatar-wrap {
       position: relative;
-      width: 140px; height: 140px;
-      margin-bottom: 36px;
+      width: 120px; height: 120px;
+      margin: 0 auto 22px;
     }
-    /* Pulse rings behind avatar */
     .hero__pulse {
       position: absolute;
-      inset: -16px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,102,204,0.35);
-      animation: pulse-ring 2.4s ease-out infinite;
+      inset: -14px; border-radius: 50%;
+      border: 1px solid rgba(41,151,255,0.38);
+      animation: pulse-ring 2.7s ease-out infinite;
     }
-    .hero__pulse:nth-child(2) { animation-delay: 0.8s; }
-    .hero__pulse:nth-child(3) { animation-delay: 1.6s; }
+    .hero__pulse:nth-child(2) { animation-delay: 0.9s; }
+    .hero__pulse:nth-child(3) { animation-delay: 1.8s; }
     @keyframes pulse-ring {
-      0%   { transform: scale(0.85); opacity: 0.8; }
-      100% { transform: scale(1.5);  opacity: 0; }
+      0%   { transform: scale(0.82); opacity: 0.9; }
+      100% { transform: scale(1.58); opacity: 0;   }
     }
-    /* Glow behind avatar */
     .hero__avatar-glow {
       position: absolute;
-      inset: -20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,102,204,0.45) 0%, transparent 65%);
-      animation: glow-breathe 3s ease-in-out infinite;
+      inset: -22px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(88,86,214,0.42) 0%, rgba(0,102,204,0.18) 40%, transparent 70%);
+      animation: glow-breathe 3.4s ease-in-out infinite;
       z-index: 0;
     }
     @keyframes glow-breathe {
-      0%,100% { opacity: 0.5; transform: scale(0.95); }
-      50%      { opacity: 1;   transform: scale(1.08); }
+      0%,100% { opacity: 0.52; transform: scale(0.93); }
+      50%      { opacity: 1;    transform: scale(1.09); }
     }
-    /* The avatar circle */
     .hero__avatar {
-      position: relative;
-      z-index: 1;
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #2a2a2e, #141416);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 46px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.55);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07);
+      position: relative; z-index: 1;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(145deg, #1e1e2e, #0c0c18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px; font-weight: 300; color: rgba(255,255,255,0.5);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
     }
-    /* Conic gradient spinning ring */
     .hero__avatar::before {
       content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        #0066cc 0%,
-        #5e5ce6 25%,
-        #30d158 50%,
-        #ff9f0a 75%,
-        #0066cc 100%
-      );
+      position: absolute; inset: -3px; border-radius: 50%;
+      background: conic-gradient(from 0deg, #0066cc 0%, #5e5ce6 25%, #30d158 50%, #ff9f0a 75%, #0066cc 100%);
       z-index: -1;
       animation: spin-ring 5s linear infinite;
     }
-    /* Blurred outer ring glow */
     .hero__avatar::after {
       content: '';
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        #0066cc,#5e5ce6,#30d158,#ff9f0a,#0066cc
-      );
-      z-index: -2;
-      opacity: 0.4;
-      filter: blur(10px);
+      position: absolute; inset: -7px; border-radius: 50%;
+      background: conic-gradient(from 0deg, #0066cc, #5e5ce6, #30d158, #ff9f0a, #0066cc);
+      z-index: -2; opacity: 0.36; filter: blur(11px);
       animation: spin-ring 5s linear infinite;
     }
     @keyframes spin-ring { to { transform: rotate(360deg); } }
 
-    /* Floating badges */
-    .hero__badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 20px;
+    .hero__card-name {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 17px; font-weight: 700; color: #fff;
+      letter-spacing: -0.3px; line-height: 1.2;
     }
-    .hero__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(12px);
-      border-radius: 9999px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 0;
-      white-space: nowrap;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-spring),
-                  background 0.2s, border-color 0.2s;
+    .hero__card-role {
+      font-size: 11px; color: rgba(255,255,255,0.42);
+      margin-top: 4px; letter-spacing: 0.1px;
     }
-    .hero__badge.show { opacity: 1; transform: translateY(0); }
-    .hero__badge:hover {
-      background: rgba(0,102,204,0.15);
-      border-color: rgba(0,102,204,0.4);
-      color: #fff;
+    .hero__card-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09), transparent);
+      margin: 18px 0;
     }
-    .hero__badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
+    .hero__card-meta { display: flex; flex-direction: column; gap: 9px; }
+    .hero__card-meta-item {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 11px; color: rgba(255,255,255,0.48); text-align: left;
+    }
+    .hero__card-meta-icon {
+      width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center; font-size: 12px;
+    }
+    .hero__status {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(48,209,88,0.09);
+      border: 1px solid rgba(48,209,88,0.24);
+      border-radius: 9999px; padding: 5px 12px;
+      font-size: 11px; color: #30d158; margin-top: 14px;
+    }
+    .hero__status-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #30d158;
+      animation: status-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes status-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(48,209,88,0.5); }
+      50%      { box-shadow: 0 0 0 5px rgba(48,209,88,0); }
     }
 
-    /* Eyebrow */
+    /* ── RIGHT: TEXT CONTENT ── */
+    .hero__right { flex: 1; min-width: 0; }
+
     .hero__eyebrow {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--primary-on-dark);
-      margin-bottom: 14px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.4px; text-transform: uppercase;
+      color: var(--primary-on-dark); margin-bottom: 16px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
     }
+    .hero__eyebrow.show { opacity: 1; transform: none; }
 
-    /* Shimmer headline */
     .hero__name {
       font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
-      font-size: clamp(42px, 7vw, 80px);
-      font-weight: 600;
-      line-height: 1.04;
-      letter-spacing: -0.03em;
-      background: linear-gradient(
-        135deg,
-        #ffffff 0%,
-        #a0c4ff 30%,
-        #ffffff 50%,
-        #c9d6ff 70%,
-        #ffffff 100%
-      );
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: clamp(38px, 5.5vw, 70px);
+      font-weight: 700; line-height: 1.03; letter-spacing: -0.03em;
+      background: linear-gradient(118deg,
+        #ffffff 0%, #c8d8ff 18%, #a78bfa 36%,
+        #ffffff 50%, #93c5fd 66%, #c8d8ff 82%, #ffffff 100%);
+      background-size: 260% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: shimmer-text 5s linear infinite;
+      animation: shimmer-name 6s linear infinite;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
     }
-    @keyframes shimmer-text {
+    .hero__name.show { opacity: 1; transform: none; }
+    @keyframes shimmer-name {
       0%   { background-position: 100% 0; }
       100% { background-position: -100% 0; }
     }
 
-    /* Typewriter */
     .hero__sub {
-      font-size: clamp(17px, 2.5vw, 22px);
-      font-weight: 300;
-      line-height: 1.5;
-      color: rgba(255,255,255,0.5);
-      margin-top: 16px;
-      min-height: 2.5em;
+      font-size: clamp(15px, 1.8vw, 19px); font-weight: 300;
+      line-height: 1.55; color: rgba(255,255,255,0.42);
+      margin-top: 14px; min-height: 1.8em;
+      opacity: 0; transition: opacity 0.6s var(--ease-out);
     }
+    .hero__sub.show { opacity: 1; }
     .hero__cursor {
-      display: inline-block;
-      width: 2px; height: 1em;
-      background: var(--primary-on-dark);
-      vertical-align: text-bottom;
-      margin-left: 2px;
-      animation: blink-cursor 0.75s step-end infinite;
+      display: inline-block; width: 2px; height: 0.9em;
+      background: var(--primary-on-dark); vertical-align: text-bottom; margin-left: 2px;
+      animation: cur-blink 0.72s step-end infinite;
     }
-    @keyframes blink-cursor { 50% { opacity: 0; } }
+    @keyframes cur-blink { 50% { opacity: 0; } }
 
-    /* CTA row */
+    .hero__badges {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.052);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-radius: 9999px; padding: 7px 14px;
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.65); white-space: nowrap;
+      cursor: default;
+      opacity: 0; transform: translateY(14px) scale(0.93);
+      transition: opacity 0.45s var(--ease-out), transform 0.48s var(--ease-spring),
+                  background 0.22s, border-color 0.22s, color 0.22s, box-shadow 0.22s;
+    }
+    .hero__badge.show { opacity: 1; transform: none; }
+    .hero__badge:hover {
+      background: rgba(41,151,255,0.14);
+      border-color: rgba(41,151,255,0.38);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(41,151,255,0.22);
+    }
+    .hero__badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
     .hero__cta {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 32px;
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-top: 28px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
     }
-    /* Magnetic button wrapper */
-    .hero__cta .btn-pill {
-      transition: background 0.2s, transform 0.2s var(--ease-spring), box-shadow 0.2s;
-    }
+    .hero__cta.show { opacity: 1; transform: none; }
 
-    /* Stats — glass cards */
     .hero__stats {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 48px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-top: 32px;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
     }
+    .hero__stats.show { opacity: 1; transform: none; }
     .hero__stat {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
-      backdrop-filter: blur(16px);
-      border-radius: 18px;
-      padding: 20px 28px;
-      text-align: center;
-      min-width: 110px;
-      transition: background 0.25s, transform 0.25s var(--ease-spring), border-color 0.25s;
+      background: rgba(255,255,255,0.044);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px; padding: 16px 22px;
+      text-align: center; min-width: 92px; cursor: default;
+      transition: background 0.25s, transform 0.28s var(--ease-spring),
+                  border-color 0.25s, box-shadow 0.25s;
     }
     .hero__stat:hover {
-      background: rgba(0,102,204,0.12);
-      border-color: rgba(41,151,255,0.3);
-      transform: translateY(-4px);
+      background: rgba(41,151,255,0.1);
+      border-color: rgba(41,151,255,0.28);
+      transform: translateY(-6px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.3), 0 0 22px rgba(41,151,255,0.14);
     }
     .hero__stat__num {
       font-family: "SF Pro Display", system-ui, sans-serif;
-      font-size: 36px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      color: #fff;
-      line-height: 1;
+      font-size: 30px; font-weight: 700; letter-spacing: -0.03em;
+      color: #fff; line-height: 1;
     }
     .hero__stat__label {
-      font-size: 11px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.4);
-      margin-top: 6px;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
+      font-size: 9px; font-weight: 600;
+      color: rgba(255,255,255,0.36); margin-top: 5px;
+      letter-spacing: 0.5px; text-transform: uppercase;
     }
 
     /* Scroll indicator */
     .scroll-indicator {
-      position: absolute;
-      bottom: 28px; left: 50%;
+      position: absolute; bottom: 28px; left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      z-index: 3;
-      transition: opacity 0.4s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      z-index: 12; transition: opacity 0.4s;
     }
     .scroll-indicator__line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
-      animation: scroll-line 1.8s ease-in-out infinite;
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.32));
+      animation: s-line 2s ease-in-out infinite;
     }
     .scroll-indicator__dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      animation: scroll-dot 1.8s ease-in-out infinite;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.28);
+      animation: s-dot 2s ease-in-out infinite;
     }
-    @keyframes scroll-line {
-      0%,100% { opacity: 0.3; transform: scaleY(0.6) translateY(0); }
+    @keyframes s-line {
+      0%,100% { opacity: 0.3; transform: scaleY(0.7); }
       50%      { opacity: 0.9; transform: scaleY(1) translateY(4px); }
     }
-    @keyframes scroll-dot {
+    @keyframes s-dot {
       0%,100% { opacity: 0.3; }
       50%      { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero__split { flex-direction: column; gap: 36px; text-align: center; }
+      .hero__left { width: 100%; max-width: 300px; }
+      .hero__card-meta-item { justify-content: center; }
+      .hero__badges, .hero__cta, .hero__stats { justify-content: center; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 48px 20px 96px; }
     }
 
     /* ──────────────────────────────────────
@@ -1174,100 +1162,118 @@
        HERO
   ═════════════════════════════════════ -->
   <section class="hero" id="home">
-    <!-- Particle canvas -->
+    <!-- Layer 0: particle canvas -->
     <canvas id="heroCanvas"></canvas>
+    <!-- Layer 1: gradient mesh -->
+    <div class="hero__mesh"></div>
 
-    <!-- Ambient blobs -->
-    <div class="hero__blob hero__blob--1"></div>
-    <div class="hero__blob hero__blob--2"></div>
-    <div class="hero__blob hero__blob--3"></div>
-
-    <!-- Parallax layer (shifts with mouse) -->
+    <!-- Parallax wrapper -->
     <div class="hero__parallax" id="heroParallax">
-      <div class="hero__inner">
+      <div class="hero__split">
 
-        <!-- Avatar -->
-        <div class="hero__avatar-wrap" id="heroAvatar" style="opacity:0;transform:scale(0.85) translateY(20px);transition:opacity 0.8s 0.1s var(--ease-out),transform 0.9s 0.1s var(--ease-spring);">
-          <div class="hero__avatar-glow"></div>
-          <div class="hero__pulse"></div>
-          <div class="hero__pulse"></div>
-          <div class="hero__pulse"></div>
-          <div class="hero__avatar">AF</div>
-        </div>
-
-        <!-- Eyebrow -->
-        <p class="hero__eyebrow" id="heroEyebrow"
-           style="opacity:0;transform:translateY(12px);transition:opacity 0.6s 0.4s,transform 0.6s 0.4s var(--ease-out);">
-          E-Portfolio Mahasiswa PPG Prajabatan
-        </p>
-
-        <!-- Shimmer name -->
-        <h1 class="hero__name" id="heroName"
-            style="opacity:0;transform:translateY(28px);transition:opacity 0.8s 0.55s var(--ease-out),transform 0.8s 0.55s var(--ease-out);">
-          Ahmad Fadhil<br>Kurniawan
-        </h1>
-
-        <!-- Typewriter subtitle -->
-        <p class="hero__sub" id="heroSub"
-           style="opacity:0;transition:opacity 0.6s 0.85s;">
-          <span id="typeTarget"></span><span class="hero__cursor" id="heroCursor"></span>
-        </p>
-
-        <!-- Floating badges -->
-        <div class="hero__badges" id="heroBadges" style="margin-top:24px;">
-          <span class="hero__badge">
-            <span class="hero__badge-dot" style="background:#0066cc;"></span>
-            PPG Prajabatan 2024
-          </span>
-          <span class="hero__badge">
-            <span class="hero__badge-dot" style="background:#30d158;"></span>
-            SMK Negeri 2 Makassar
-          </span>
-          <span class="hero__badge">
-            <span class="hero__badge-dot" style="background:#5e5ce6;"></span>
-            Teknik Komputer & Jaringan
-          </span>
-          <span class="hero__badge">
-            <span class="hero__badge-dot" style="background:#ff9f0a;"></span>
-            Universitas Negeri Makassar
-          </span>
-        </div>
-
-        <!-- CTA -->
-        <div class="hero__cta" id="heroCta"
-             style="opacity:0;transform:translateY(12px);transition:opacity 0.6s 1.1s,transform 0.6s 1.1s var(--ease-out);">
-          <a href="#profil" class="btn-pill">Lihat Profil</a>
-          <a href="#artefak" class="btn-pill btn-pill--ghost"
-             style="color:var(--primary-on-dark);border-color:rgba(41,151,255,0.5);">
-            Jelajahi Artefak
-          </a>
-        </div>
-
-        <!-- Stats glass cards -->
-        <div class="hero__stats" id="heroStats"
-             style="opacity:0;transform:translateY(16px);transition:opacity 0.7s 1.3s,transform 0.7s 1.3s var(--ease-out);">
-          <div class="hero__stat">
-            <div class="hero__stat__num" data-count="3">0</div>
-            <div class="hero__stat__label">Siklus PPL</div>
-          </div>
-          <div class="hero__stat">
-            <div class="hero__stat__num" data-count="6">0</div>
-            <div class="hero__stat__label">Artefak</div>
-          </div>
-          <div class="hero__stat">
-            <div class="hero__stat__num" data-count="90" data-suffix="+">0</div>
-            <div class="hero__stat__label">Skor Rata-rata</div>
-          </div>
-          <div class="hero__stat">
-            <div class="hero__stat__num" data-count="45" data-suffix=" jam">0</div>
-            <div class="hero__stat__label">Jam Mengajar</div>
+        <!-- ── LEFT: PROFILE CARD ── -->
+        <div class="hero__left" id="heroLeft"
+             style="opacity:0;transform:translateX(-36px) scale(0.96);transition:opacity 0.9s 0.06s var(--ease-out),transform 0.9s 0.06s var(--ease-spring);">
+          <div class="hero__card" id="heroCard">
+            <!-- Avatar -->
+            <div class="hero__avatar-wrap">
+              <div class="hero__avatar-glow"></div>
+              <div class="hero__pulse"></div>
+              <div class="hero__pulse"></div>
+              <div class="hero__pulse"></div>
+              <div class="hero__avatar">AF</div>
+            </div>
+            <div class="hero__card-name">Ahmad Fadhil Kurniawan</div>
+            <div class="hero__card-role">Calon Guru TKJ · PPG Prajabatan</div>
+            <div class="hero__card-rule"></div>
+            <div class="hero__card-meta">
+              <div class="hero__card-meta-item">
+                <span class="hero__card-meta-icon">📍</span>
+                Makassar, Sulawesi Selatan
+              </div>
+              <div class="hero__card-meta-item">
+                <span class="hero__card-meta-icon">🏫</span>
+                SMK Negeri 2 Makassar
+              </div>
+              <div class="hero__card-meta-item">
+                <span class="hero__card-meta-icon">🎓</span>
+                Universitas Negeri Makassar
+              </div>
+            </div>
+            <div style="display:flex;justify-content:center;">
+              <div class="hero__status">
+                <span class="hero__status-dot"></span>
+                PPL Terbimbing Selesai
+              </div>
+            </div>
           </div>
         </div>
 
-      </div>
-    </div>
+        <!-- ── RIGHT: CONTENT ── -->
+        <div class="hero__right">
+          <p class="hero__eyebrow" id="heroEyebrow">
+            E-Portfolio · PPG Prajabatan 2024
+          </p>
+          <h1 class="hero__name" id="heroName">
+            Ahmad Fadhil<br>Kurniawan
+          </h1>
+          <p class="hero__sub" id="heroSub">
+            <span id="typeTarget"></span><span class="hero__cursor"></span>
+          </p>
 
-    <!-- Scroll indicator -->
+          <!-- Badges -->
+          <div class="hero__badges" id="heroBadges">
+            <span class="hero__badge" id="badge1">
+              <span class="hero__badge-dot" style="background:#5e5ce6;"></span>
+              PPG Prajabatan 2024
+            </span>
+            <span class="hero__badge" id="badge2">
+              <span class="hero__badge-dot" style="background:#0066cc;"></span>
+              SMK Negeri 2 Makassar
+            </span>
+            <span class="hero__badge" id="badge3">
+              <span class="hero__badge-dot" style="background:#30d158;"></span>
+              Teknik Komputer & Jaringan
+            </span>
+            <span class="hero__badge" id="badge4">
+              <span class="hero__badge-dot" style="background:#ff9f0a;"></span>
+              Universitas Negeri Makassar
+            </span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="hero__cta" id="heroCta">
+            <a href="#profil" class="btn-pill">Lihat Profil</a>
+            <a href="#artefak" class="btn-pill btn-pill--ghost"
+               style="color:var(--primary-on-dark);border-color:rgba(41,151,255,0.4);">
+              Jelajahi Artefak
+            </a>
+          </div>
+
+          <!-- Glass stat cards -->
+          <div class="hero__stats" id="heroStats">
+            <div class="hero__stat">
+              <div class="hero__stat__num" data-count="3">0</div>
+              <div class="hero__stat__label">Siklus PPL</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat__num" data-count="6">0</div>
+              <div class="hero__stat__label">Artefak</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat__num" data-count="90" data-suffix="+">0</div>
+              <div class="hero__stat__label">Skor Rata-rata</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat__num" data-count="45" data-suffix="j">0</div>
+              <div class="hero__stat__label">Jam Mengajar</div>
+            </div>
+          </div>
+        </div><!-- /hero__right -->
+
+      </div><!-- /hero__split -->
+    </div><!-- /hero__parallax -->
+
     <div class="scroll-indicator" id="scrollHint">
       <div class="scroll-indicator__line"></div>
       <div class="scroll-indicator__dot"></div>
@@ -1765,163 +1771,142 @@
   </footer>
 
   <script>
-  /* ─── PARTICLE CANVAS ──────────────────────── */
-  (function initParticles() {
-    const canvas = document.getElementById('heroCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, nodes = [], mouse = { x: -9999, y: -9999 };
-    const COUNT = 55, CONN_DIST = 160, MOUSE_DIST = 120;
+  /* ─── PARTICLE CANVAS (behind gradient mesh) ──── */
+  (function() {
+    const cv = document.getElementById('heroCanvas');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    let W, H, nodes = [], mx = -9999, my = -9999;
+    const N = 62, CONN = 155, MR = 115;
 
-    function resize() {
-      W = canvas.width  = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
-    }
+    const resize = () => {
+      W = cv.width  = cv.offsetWidth;
+      H = cv.height = cv.offsetHeight;
+    };
     window.addEventListener('resize', resize);
     resize();
 
-    function rand(a, b) { return a + Math.random() * (b - a); }
-
-    for (let i = 0; i < COUNT; i++) {
-      nodes.push({
-        x: rand(0, W), y: rand(0, H),
-        vx: rand(-0.25, 0.25), vy: rand(-0.25, 0.25),
-        r: rand(1.5, 3),
-        baseAlpha: rand(0.25, 0.6)
-      });
-    }
-
-    document.getElementById('heroCanvas').parentElement.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    document.getElementById('heroCanvas').parentElement.addEventListener('mouseleave', () => {
-      mouse.x = -9999; mouse.y = -9999;
+    for (let i = 0; i < N; i++) nodes.push({
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*.24, vy: (Math.random()-.5)*.24,
+      r: .8 + Math.random()*1.8,
+      a: .18 + Math.random()*.45
     });
 
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
+    const hero = document.querySelector('.hero');
+    hero.addEventListener('mousemove', e => {
+      const r = cv.getBoundingClientRect();
+      mx = e.clientX - r.left; my = e.clientY - r.top;
+    });
+    hero.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
 
-      // Move nodes
+    (function draw() {
+      ctx.clearRect(0,0,W,H);
       for (const n of nodes) {
         n.x += n.vx; n.y += n.vy;
         if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
         if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
-        // Mouse repel
-        const dx = n.x - mouse.x, dy = n.y - mouse.y;
-        const md = Math.sqrt(dx*dx + dy*dy);
-        if (md < MOUSE_DIST) {
-          const f = (1 - md/MOUSE_DIST) * 0.8;
-          n.x += dx/md * f; n.y += dy/md * f;
+        const dd = Math.hypot(n.x-mx, n.y-my);
+        if (dd < MR) { const f = (1-dd/MR)*.75; n.x += (n.x-mx)/dd*f; n.y += (n.y-my)/dd*f; }
+      }
+      for (let i = 0; i < N; i++) for (let j = i+1; j < N; j++) {
+        const a = nodes[i], b = nodes[j], d = Math.hypot(a.x-b.x,a.y-b.y);
+        if (d < CONN) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(110,140,255,${(1-d/CONN)*.13})`;
+          ctx.lineWidth = .65;
+          ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
         }
       }
-
-      // Draw connections
-      for (let i = 0; i < COUNT; i++) {
-        for (let j = i+1; j < COUNT; j++) {
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x-b.x, dy = a.y-b.y;
-          const d = Math.sqrt(dx*dx+dy*dy);
-          if (d < CONN_DIST) {
-            const alpha = (1 - d/CONN_DIST) * 0.18;
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(41,151,255,${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw nodes
       for (const n of nodes) {
-        const dx = n.x-mouse.x, dy = n.y-mouse.y;
-        const near = Math.sqrt(dx*dx+dy*dy) < MOUSE_DIST;
+        const near = Math.hypot(n.x-mx,n.y-my) < MR;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, near ? n.r*1.8 : n.r, 0, Math.PI*2);
-        ctx.fillStyle = near
-          ? `rgba(41,151,255,${n.baseAlpha * 1.6})`
-          : `rgba(160,196,255,${n.baseAlpha})`;
+        ctx.arc(n.x,n.y, near?n.r*2:n.r, 0, Math.PI*2);
+        ctx.fillStyle = near ? `rgba(100,165,255,${n.a*1.9})` : `rgba(150,185,255,${n.a})`;
         ctx.fill();
       }
       requestAnimationFrame(draw);
-    }
-    draw();
+    })();
   })();
 
-  /* ─── TYPEWRITER ─────────────────────────── */
+  /* ─── TYPEWRITER ──────────────────────────────── */
   function startTypewriter() {
     const el = document.getElementById('typeTarget');
-    const cursor = document.getElementById('heroCursor');
     if (!el) return;
     const lines = [
       'Calon Guru Teknik Komputer dan Jaringan',
       'PPG Prajabatan · Universitas Negeri Makassar',
       'Membangun Pemikir, Bukan Sekadar Operator'
     ];
-    let li = 0, ci = 0, deleting = false, pauseTimer = 0;
-    function tick() {
-      const line = lines[li];
-      if (!deleting) {
-        el.textContent = line.slice(0, ++ci);
-        if (ci === line.length) { deleting = true; pauseTimer = 38; }
+    let li=0, ci=0, del=false, pause=0;
+    const tick = () => {
+      const ln = lines[li];
+      if (!del) {
+        el.textContent = ln.slice(0, ++ci);
+        if (ci === ln.length) { del=true; pause=42; }
       } else {
-        if (pauseTimer-- > 0) { setTimeout(tick, 60); return; }
-        el.textContent = line.slice(0, --ci);
-        if (ci === 0) { deleting = false; li = (li+1) % lines.length; pauseTimer = 0; }
+        if (pause-->0) { setTimeout(tick, 55); return; }
+        el.textContent = ln.slice(0, --ci);
+        if (ci===0) { del=false; li=(li+1)%lines.length; }
       }
-      setTimeout(tick, deleting ? 28 : 55);
-    }
+      setTimeout(tick, del?25:50);
+    };
     tick();
   }
 
-  /* ─── MOUSE PARALLAX ─────────────────────── */
-  (function initParallax() {
+  /* ─── MOUSE PARALLAX + CARD 3D TILT ─────────── */
+  (function() {
     const layer = document.getElementById('heroParallax');
+    const card  = document.getElementById('heroCard');
     if (!layer) return;
-    let tx = 0, ty = 0, cx = 0, cy = 0;
+    let tx=0,ty=0,cx=0,cy=0, rx=0,ry=0,crx=0,cry=0;
     document.querySelector('.hero').addEventListener('mousemove', e => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      tx = ((e.clientX - rect.left) / rect.width  - 0.5) * 14;
-      ty = ((e.clientY - rect.top)  / rect.height - 0.5) * 10;
+      const r = e.currentTarget.getBoundingClientRect();
+      const nx = (e.clientX-r.left)/r.width  - .5;
+      const ny = (e.clientY-r.top) /r.height - .5;
+      tx = nx*14; ty = ny*10;   /* parallax ±14 / ±10 */
+      rx = ny*7;  ry = -nx*9;  /* card tilt */
     });
-    document.querySelector('.hero').addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+    document.querySelector('.hero').addEventListener('mouseleave', () => {
+      tx=ty=rx=ry=0;
+    });
     (function loop() {
-      cx += (tx - cx) * 0.07;
-      cy += (ty - cy) * 0.07;
-      layer.style.transform = `translate(${cx}px, ${cy}px)`;
+      cx  += (tx-cx) *.07;  cy  += (ty-cy) *.07;
+      crx += (rx-crx)*.08;  cry += (ry-cry)*.08;
+      layer.style.transform = `translate(${cx}px,${cy}px)`;
+      if (card) card.style.transform =
+        `perspective(900px) rotateX(${crx}deg) rotateY(${cry}deg) translateZ(${Math.abs(crx)*1.5}px)`;
       requestAnimationFrame(loop);
     })();
   })();
 
-  /* ─── HERO ENTRANCE ─────────────────────────── */
+  /* ─── HERO ENTRANCE ──────────────────────────── */
   window.addEventListener('load', () => {
-    const show = (id, delay = 0, extra = '') => setTimeout(() => {
+    const show  = (id, d) => setTimeout(() => {
       const el = document.getElementById(id);
-      if (el) { el.style.opacity = '1'; el.style.transform = extra || 'none'; }
-    }, delay);
-    show('heroAvatar', 100);
-    show('heroEyebrow', 420);
-    show('heroName', 580);
-    show('heroSub', 820);
-    show('heroCta', 1080);
-    show('heroStats', 1280);
-    // Badges stagger
-    setTimeout(() => {
-      document.querySelectorAll('.hero__badge').forEach((b, i) => {
-        setTimeout(() => b.classList.add('show'), i * 90);
-      });
-    }, 950);
-    // Typewriter after sub visible
-    setTimeout(startTypewriter, 900);
-    // Counters
-    setTimeout(startCounters, 1500);
-    // Hide scroll hint on scroll
+      if (el) { el.style.opacity='1'; el.style.transform='none'; }
+    }, d);
+    const cls = (id, d) => setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('show');
+    }, d);
+
+    show('heroLeft',    80);
+    cls ('heroEyebrow', 360);
+    cls ('heroName',    520);
+    cls ('heroSub',     780);
+    [1,2,3,4].forEach((n,i) => setTimeout(() => {
+      const b = document.getElementById('badge'+n);
+      if (b) b.classList.add('show');
+    }, 960 + i*100));
+    cls('heroCta',   1180);
+    cls('heroStats', 1360);
+    setTimeout(startTypewriter,  840);
+    setTimeout(startCounters,   1520);
+
     window.addEventListener('scroll', () => {
-      const hint = document.getElementById('scrollHint');
-      if (hint) hint.style.opacity = window.scrollY > 60 ? '0' : '1';
+      const h = document.getElementById('scrollHint');
+      if (h) h.style.opacity = window.scrollY > 60 ? '0' : '1';
     }, { passive: true });
   });
 
