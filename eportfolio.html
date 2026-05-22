@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Portfolio PPG — Ahmad Fadhil Kurniawan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #0066cc;
+      --primary-focus: #0071e3;
+      --primary-on-dark: #2997ff;
+      --ink: #1d1d1f;
+      --body-muted: #cccccc;
+      --ink-muted-80: #333333;
+      --ink-muted-48: #7a7a7a;
+      --divider-soft: #f0f0f0;
+      --hairline: #e0e0e0;
+      --canvas: #ffffff;
+      --canvas-parchment: #f5f5f7;
+      --surface-pearl: #fafafc;
+      --surface-tile-1: #272729;
+      --surface-tile-2: #2a2a2c;
+      --surface-black: #000000;
+      --on-dark: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GLOBAL NAV ── */
+    .global-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--surface-black);
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+    }
+    .global-nav__brand {
+      color: var(--on-dark);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.12px;
+      text-decoration: none;
+    }
+    .global-nav__links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+    .global-nav__links a {
+      color: var(--on-dark);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+    .global-nav__links a:hover { opacity: 1; }
+    @media (max-width: 640px) {
+      .global-nav__links { display: none; }
+    }
+
+    /* ── SUB-NAV ── */
+    .sub-nav {
+      position: sticky;
+      top: 44px;
+      z-index: 900;
+      background: rgba(245, 245, 247, 0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .sub-nav__title {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: 0.231px;
+      color: var(--ink);
+    }
+    .sub-nav__links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      align-items: center;
+    }
+    .sub-nav__links a {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.224px;
+      text-decoration: none;
+    }
+    .btn-pill {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.374px;
+      padding: 11px 22px;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-pill:active { transform: scale(0.95); }
+    .btn-pill:hover { background: var(--primary-focus); }
+    .btn-pill--ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn-pill--ghost:hover { background: rgba(0,102,204,0.06); }
+    .btn-pill--on-dark {
+      background: var(--primary);
+      color: #fff;
+    }
+    @media (max-width: 640px) {
+      .sub-nav__links { display: none; }
+    }
+
+    /* ── TILES ── */
+    .tile {
+      width: 100%;
+      padding: 80px 22px;
+      text-align: center;
+    }
+    .tile--light  { background: var(--canvas); color: var(--ink); }
+    .tile--parch  { background: var(--canvas-parchment); color: var(--ink); }
+    .tile--dark   { background: var(--surface-tile-1); color: var(--on-dark); }
+    .tile--dark-2 { background: var(--surface-tile-2); color: var(--on-dark); }
+    .tile__inner  { max-width: 980px; margin: 0 auto; }
+    .tile__inner--wide { max-width: 1200px; margin: 0 auto; }
+
+    @media (max-width: 640px) {
+      .tile { padding: 48px 20px; }
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .hero-display {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 56px;
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+    }
+    .display-lg {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    .display-md {
+      font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+      font-size: 34px;
+      font-weight: 600;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+    }
+    .lead {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
+    }
+    .lead-airy {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+    .tagline {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.19;
+      letter-spacing: 0.231px;
+    }
+    .body-strong { font-weight: 600; letter-spacing: -0.374px; }
+    .caption {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+    }
+    .caption-strong {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.29;
+      letter-spacing: -0.224px;
+    }
+    .fine-print {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.12px;
+      color: var(--ink-muted-48);
+    }
+
+    .mt-xs  { margin-top: 8px; }
+    .mt-sm  { margin-top: 12px; }
+    .mt-md  { margin-top: 17px; }
+    .mt-lg  { margin-top: 24px; }
+    .mt-xl  { margin-top: 32px; }
+    .mt-xxl { margin-top: 48px; }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      margin-top: 96px; /* nav 44 + subnav 52 */
+      background: var(--surface-tile-1);
+      color: var(--on-dark);
+      padding: 100px 22px 80px;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--body-muted);
+      margin-bottom: 16px;
+    }
+    .hero__avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3a3a3c 0%, #1c1c1e 100%);
+      border: 3px solid rgba(255,255,255,0.12);
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      box-shadow: rgba(0,0,0,0.22) 3px 5px 30px 0;
+    }
+
+    /* ── PROFILE SECTION ── */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      text-align: left;
+      margin-top: 48px;
+    }
+    @media (max-width: 734px) {
+      .profile-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .profile-info-row {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      border-left: 3px solid var(--primary);
+      padding-left: 16px;
+    }
+    .blockquote {
+      margin-top: 48px;
+      background: var(--surface-tile-1);
+      color: var(--on-dark);
+      border-radius: 18px;
+      padding: 48px;
+      text-align: center;
+    }
+    .blockquote__text {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+    .blockquote__author {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--body-muted);
+      letter-spacing: -0.224px;
+    }
+
+    /* ── ARTIFACT GRID ── */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+      text-align: left;
+    }
+    @media (max-width: 1024px) {
+      .artifact-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .artifact-grid { grid-template-columns: 1fr; }
+    }
+
+    .artifact-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: box-shadow 0.2s;
+    }
+    .artifact-card:hover {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+    }
+    .artifact-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 11px;
+      background: var(--canvas-parchment);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .artifact-card__type {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    .artifact-card__title {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.24;
+      letter-spacing: -0.374px;
+      color: var(--ink);
+    }
+    .artifact-card__desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+      color: var(--ink-muted-80);
+      flex: 1;
+    }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .tag {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      background: var(--canvas-parchment);
+      color: var(--ink-muted-80);
+      border-radius: 9999px;
+      padding: 4px 10px;
+    }
+    .tag--blue { background: rgba(0,102,204,0.08); color: var(--primary); }
+    .artifact-link {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 400;
+      text-decoration: none;
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .artifact-link::after { content: " →"; }
+
+    /* ── ANALYSIS BOX ── */
+    .analysis-block {
+      background: var(--canvas-parchment);
+      border-radius: 11px;
+      padding: 20px 24px;
+      margin-top: 12px;
+      border-left: 3px solid var(--primary);
+    }
+    .analysis-block__label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .analysis-block__text {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+      color: var(--ink-muted-80);
+    }
+
+    /* ── CYCLE TABLE ── */
+    .cycle-section { margin-top: 48px; text-align: left; }
+    .cycle-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .cycle-tab {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.224px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--body-muted);
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.15s;
+    }
+    .cycle-tab.active, .cycle-tab:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .cycle-panel { display: none; }
+    .cycle-panel.active { display: block; }
+
+    .assessment-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .assessment-table th {
+      background: rgba(255,255,255,0.08);
+      color: var(--body-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .assessment-table td {
+      padding: 12px 16px;
+      color: var(--on-dark);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      line-height: 1.43;
+    }
+    .assessment-table tr:last-child td { border-bottom: none; }
+    .score-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .score-pill--a { background: rgba(52,199,89,0.18); color: #34c759; }
+    .score-pill--b { background: rgba(255,204,0,0.18); color: #ffcc00; }
+
+    /* ── TEACHER MODEL ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+      text-align: left;
+    }
+    @media (max-width: 834px) {
+      .model-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .model-grid { grid-template-columns: 1fr; }
+    }
+    .model-card {
+      background: var(--canvas-parchment);
+      border-radius: 18px;
+      padding: 28px 24px;
+    }
+    .model-card__num {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .model-card__title {
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.19;
+      letter-spacing: 0.231px;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .model-card__body {
+      font-size: 14px;
+      color: var(--ink-muted-80);
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+    }
+    .competency-list {
+      list-style: none;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .competency-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--ink-muted-80);
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+    }
+    .competency-list li::before {
+      content: "✦";
+      color: var(--primary);
+      font-size: 10px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .mission-banner {
+      background: var(--surface-tile-2);
+      border-radius: 18px;
+      padding: 48px;
+      margin-top: 48px;
+      text-align: center;
+    }
+    .mission-banner__label {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--body-muted);
+      margin-bottom: 16px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--canvas-parchment);
+      padding: 64px 22px;
+    }
+    .footer-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 640px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    .footer-col__title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.29;
+      letter-spacing: -0.224px;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .footer-col__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-col__links a {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 2.41;
+      color: var(--ink-muted-80);
+      text-decoration: none;
+    }
+    .footer-col__links a:hover { color: var(--primary); }
+    .footer-legal {
+      max-width: 980px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .section-eyebrow--dark {
+      color: var(--primary-on-dark);
+    }
+
+    /* ── DIVIDER ── */
+    .hairline-divider {
+      border: none;
+      border-top: 1px solid var(--hairline);
+      margin: 40px 0;
+    }
+    .hairline-divider--dark {
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    /* VIDEO PLACEHOLDER */
+    .video-placeholder {
+      background: var(--surface-tile-1);
+      border-radius: 11px;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--body-muted);
+      font-size: 14px;
+      margin-top: 24px;
+    }
+    .video-play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(210,210,215,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── GLOBAL NAV ── -->
+  <nav class="global-nav">
+    <a class="global-nav__brand" href="#">E-Portfolio PPG</a>
+    <ul class="global-nav__links">
+      <li><a href="#profil">Profil</a></li>
+      <li><a href="#artefak">Artefak</a></li>
+      <li><a href="#penilaian">Penilaian</a></li>
+      <li><a href="#model-guru">Model Guru</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── SUB-NAV ── -->
+  <div class="sub-nav">
+    <span class="sub-nav__title">PPG Prajabatan</span>
+    <ul class="sub-nav__links">
+      <li><a href="#artefak">Lihat Artefak</a></li>
+      <li><a href="#penilaian">Lampiran 7 & 8</a></li>
+      <li><a class="btn-pill" href="#model-guru" style="font-size:14px;padding:8px 18px;">Model Guru</a></li>
+    </ul>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div style="max-width:700px;margin:0 auto;">
+      <p class="hero__eyebrow">E-Portfolio Mahasiswa PPG Prajabatan</p>
+      <div class="hero__avatar">AF</div>
+      <h1 class="hero-display" style="color:var(--on-dark);">Ahmad Fadhil<br>Kurniawan</h1>
+      <p class="lead mt-lg" style="color:var(--body-muted);">Calon Guru Teknik Komputer dan Jaringan<br>Universitas Negeri Makassar · 2024</p>
+      <div class="cta-row">
+        <a href="#profil" class="btn-pill">Lihat Profil</a>
+        <a href="#artefak" class="btn-pill btn-pill--ghost" style="color:var(--primary-on-dark);border-color:var(--primary-on-dark);">Jelajahi Artefak</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 1 — PROFIL MAHASISWA
+  ════════════════════════════════════════════ -->
+  <section class="tile tile--light" id="profil">
+    <div class="tile__inner">
+      <p class="section-eyebrow">01 · Profil Mahasiswa</p>
+      <h2 class="display-lg">Dari Makassar,<br>Untuk Generasi Indonesia.</h2>
+      <p class="lead mt-lg" style="max-width:680px;margin-left:auto;margin-right:auto;">
+        Berasal dari kota dengan seribu warung kopi, di mana diskusi panjang lahir dari secangkir saraba'—teh jahe khas Makassar.
+      </p>
+
+      <div class="profile-grid">
+        <div>
+          <div class="profile-info-row">
+            <span class="caption" style="color:var(--ink-muted-48);">Nama Lengkap</span>
+            <span class="body-strong">Ahmad Fadhil Kurniawan</span>
+          </div>
+          <div class="profile-info-row mt-lg">
+            <span class="caption" style="color:var(--ink-muted-48);">NIM</span>
+            <span class="body-strong">2403032401</span>
+          </div>
+          <div class="profile-info-row mt-lg">
+            <span class="caption" style="color:var(--ink-muted-48);">Program Studi</span>
+            <span class="body-strong">PPG Prajabatan — Teknik Komputer dan Jaringan</span>
+          </div>
+          <div class="profile-info-row mt-lg">
+            <span class="caption" style="color:var(--ink-muted-48);">Universitas</span>
+            <span class="body-strong">Universitas Negeri Makassar</span>
+          </div>
+          <div class="profile-info-row mt-lg">
+            <span class="caption" style="color:var(--ink-muted-48);">Sekolah Mitra PPL</span>
+            <span class="body-strong">SMK Negeri 2 Makassar</span>
+          </div>
+          <div class="profile-info-row mt-lg">
+            <span class="caption" style="color:var(--ink-muted-48);">Angkatan</span>
+            <span class="body-strong">2024 · Semester Genap</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="tagline" style="color:var(--primary);">Asal Daerah & Keunikan</p>
+          <p class="mt-sm">
+            Makassar bukan sekadar kota pelabuhan. Ia adalah tempat di mana budaya Bugis-Makassar mengajarkan nilai <em>siri' na pacce</em>—harga diri dan empati yang mendalam. Tumbuh di lingkungan yang menghargai keberanian berpikir terbuka, saya belajar bahwa pendidikan bukan hanya transmisi pengetahuan, melainkan pembentukan karakter.
+          </p>
+          <p class="mt-md">
+            Keunikan daerah asal saya terletak pada perpaduan antara modernitas digital kota dan kearifan lokal yang kuat. Di sinilah tumbuh keyakinan bahwa teknologi harus dapat dijangkau semua orang—termasuk siswa di pinggiran kota.
+          </p>
+          <p class="tagline mt-xl" style="color:var(--primary);">Inspirasi & Tujuan</p>
+          <p class="mt-sm">
+            Seorang guru SMP mengubah cara saya melihat komputer bukan sebagai mesin, melainkan sebagai alat berpikir. Pengalaman itu menjadi kompas yang mengarahkan saya ke PPG Prajabatan. Saya ingin menjadi guru yang tidak hanya mengajarkan konfigurasi jaringan, tetapi membangun cara berpikir komputasional yang akan digunakan siswa sepanjang hidup mereka.
+          </p>
+          <p class="mt-md">
+            Tujuan profesional saya adalah menciptakan lingkungan belajar yang inklusif, berbasis proyek nyata, dan mampu menjembatani dunia industri dengan ruang kelas SMK.
+          </p>
+        </div>
+      </div>
+
+      <!-- Kutipan -->
+      <div class="blockquote">
+        <p class="blockquote__text">
+          "Mengajar bukan hanya pekerjaan — ini adalah tindakan kepercayaan.<br>Kepercayaan bahwa setiap anak menyimpan kemampuan yang belum pernah dilihat bahkan oleh dirinya sendiri."
+        </p>
+        <p class="blockquote__author">— Ahmad Fadhil Kurniawan</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2 — ARTEFAK
+  ════════════════════════════════════════════ -->
+  <section class="tile tile--parch" id="artefak">
+    <div class="tile__inner--wide">
+      <p class="section-eyebrow">02 · Artefak</p>
+      <h2 class="display-lg">Rencana & Perangkat<br>Pembelajaran.</h2>
+      <p class="lead mt-lg" style="max-width:680px;margin:17px auto 0;">
+        Kumpulan artefak yang dirancang, diimplementasikan, dan direfleksikan selama tiga siklus PPL Terbimbing di SMK Negeri 2 Makassar.
+      </p>
+
+      <div class="artifact-grid">
+
+        <!-- ARTEFAK 1: RPP -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">📋</div>
+          <div class="artifact-card__type">RPP · Siklus 1–3</div>
+          <div class="artifact-card__title">Rencana Pelaksanaan Pembelajaran (RPP) — Jaringan Komputer Kelas X TKJ</div>
+          <div class="artifact-card__desc">
+            RPP berbasis Kurikulum Merdeka dengan pendekatan Project-Based Learning (PjBL). Disusun untuk 3 pertemuan per siklus dengan tujuan pembelajaran yang terukur berdasarkan Profil Pelajar Pancasila.
+          </div>
+          <div class="analysis-block">
+            <div class="analysis-block__label">Analisis &amp; Kajian Teori</div>
+            <div class="analysis-block__text">
+              <strong>Konteks:</strong> Kelas X TKJ membutuhkan pendekatan yang menghubungkan teori OSI Layer dengan praktik nyata konfigurasi switch. <strong>Kelebihan:</strong> Tujuan pembelajaran operasional dan terukur; kegiatan sinkron-asinkron tersedia. <strong>Kekurangan:</strong> Alokasi waktu estimasi terlalu optimis untuk siswa heterogen. Kajian Ausubel (Meaningful Learning) mendukung pendekatan kontekstual yang digunakan—pengetahuan baru dihubungkan dengan skema awal siswa.
+            </div>
+          </div>
+          <div class="tag-row">
+            <span class="tag tag--blue">Kurikulum Merdeka</span>
+            <span class="tag">PjBL</span>
+            <span class="tag">Diferensiasi</span>
+          </div>
+          <a href="#" class="artifact-link">Unduh RPP</a>
+        </div>
+
+        <!-- ARTEFAK 2: MEDIA -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">🎬</div>
+          <div class="artifact-card__type">Media Pembelajaran</div>
+          <div class="artifact-card__title">Slide Interaktif & Simulasi Packet Tracer — Konfigurasi VLAN</div>
+          <div class="artifact-card__desc">
+            Media berbasis Canva dan simulasi Cisco Packet Tracer. Dirancang untuk mendukung gaya belajar visual dan kinestetik dengan animasi topologi jaringan dan skenario troubleshooting mandiri.
+          </div>
+          <div class="analysis-block">
+            <div class="analysis-block__label">Analisis &amp; Kajian Teori</div>
+            <div class="analysis-block__text">
+              <strong>Konteks:</strong> Siswa sulit membayangkan alur data tanpa visualisasi dinamis. <strong>Kelebihan:</strong> Meningkatkan keterlibatan; siswa dapat mengulang simulasi mandiri. <strong>Kekurangan:</strong> Memerlukan lab dengan komputer memadai; belum ada versi mobile. Teori Multimedia Learning (Mayer, 2009) — konten dual-channel (visual + narasi) terbukti meningkatkan retensi.
+            </div>
+          </div>
+          <div class="tag-row">
+            <span class="tag tag--blue">Visual</span>
+            <span class="tag">Packet Tracer</span>
+            <span class="tag">Interaktif</span>
+          </div>
+          <a href="#" class="artifact-link">Lihat Media</a>
+        </div>
+
+        <!-- ARTEFAK 3: LKPD -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">📝</div>
+          <div class="artifact-card__type">LKPD</div>
+          <div class="artifact-card__title">Lembar Kerja Peserta Didik — Topologi Jaringan & IP Addressing</div>
+          <div class="artifact-card__desc">
+            LKPD terdiferensiasi dengan tiga tingkat kesulitan (kesiapan belajar). Memuat pertanyaan pemantik, eksplorasi mandiri, dan refleksi metakognitif di setiap akhir kegiatan.
+          </div>
+          <div class="analysis-block">
+            <div class="analysis-block__label">Analisis &amp; Kajian Teori</div>
+            <div class="analysis-block__text">
+              <strong>Konteks:</strong> Diferensiasi diperlukan karena rentang kemampuan awal siswa sangat lebar. <strong>Kelebihan:</strong> Setiap siswa bekerja sesuai kapasitasnya; tidak ada yang merasa tertinggal. <strong>Kekurangan:</strong> Persiapan lebih lama; butuh pemantauan guru intensif. Vygotsky (ZPD) — zona perkembangan proksimal menjadi pijakan desain tingkatan soal.
+            </div>
+          </div>
+          <div class="tag-row">
+            <span class="tag tag--blue">Diferensiasi</span>
+            <span class="tag">Metakognisi</span>
+            <span class="tag">3 Level</span>
+          </div>
+          <a href="#" class="artifact-link">Unduh LKPD</a>
+        </div>
+
+        <!-- ARTEFAK 4: HASIL KERJA SISWA -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">🗂️</div>
+          <div class="artifact-card__type">Contoh Hasil Kerja Siswa</div>
+          <div class="artifact-card__title">Portofolio Proyek Siswa — Desain Jaringan LAN Sekolah</div>
+          <div class="artifact-card__desc">
+            Tiga sampel hasil kerja siswa (tinggi, menengah, rendah) beserta komentar umpan balik tertulis. Proyek akhir berupa rancangan topologi LAN skala kecil menggunakan Cisco Packet Tracer.
+          </div>
+          <div class="analysis-block">
+            <div class="analysis-block__label">Analisis &amp; Kajian Teori</div>
+            <div class="analysis-block__text">
+              <strong>Konteks:</strong> Hasil kerja menunjukkan gap antara pemahaman konseptual dan implementasi praktis. <strong>Kelebihan:</strong> Siswa termotivasi karena proyeknya nyata dan fungsional. <strong>Kekurangan:</strong> Siswa berkemampuan rendah cenderung bergantung pada rekan. Teori Scaffolding (Wood, Bruner & Ross) — dukungan bertahap terbukti meningkatkan kemandirian.
+            </div>
+          </div>
+          <div class="tag-row">
+            <span class="tag tag--blue">Proyek Akhir</span>
+            <span class="tag">3 Sampel</span>
+            <span class="tag">Umpan Balik</span>
+          </div>
+          <a href="#" class="artifact-link">Lihat Sampel</a>
+        </div>
+
+        <!-- ARTEFAK 5: INSTRUMEN PENILAIAN -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">📊</div>
+          <div class="artifact-card__type">Instrumen Penilaian</div>
+          <div class="artifact-card__title">Rubrik Penilaian Proyek, Tes Formatif & Observasi Sikap</div>
+          <div class="artifact-card__desc">
+            Paket instrumen penilaian mencakup rubrik holistik proyek, soal tes pilihan ganda berbasis HOTS, dan lembar observasi sikap kolaboratif. Divalidasi bersama Guru Pamong dan DPL.
+          </div>
+          <div class="analysis-block">
+            <div class="analysis-block__label">Analisis &amp; Kajian Teori</div>
+            <div class="analysis-block__text">
+              <strong>Konteks:</strong> Penilaian autentik diperlukan agar hasil belajar mencerminkan kompetensi nyata. <strong>Kelebihan:</strong> Multi-aspek (kognitif, psikomotorik, afektif). <strong>Kekurangan:</strong> Rubrik holistik masih memiliki subjektivitas penilai. Taksonomi Bloom Revisi (Anderson & Krathwohl) — soal dirancang pada level C4–C5.
+            </div>
+          </div>
+          <div class="tag-row">
+            <span class="tag tag--blue">HOTS</span>
+            <span class="tag">Rubrik</span>
+            <span class="tag">Autentik</span>
+          </div>
+          <a href="#" class="artifact-link">Unduh Instrumen</a>
+        </div>
+
+        <!-- ARTEFAK 6: VIDEO -->
+        <div class="artifact-card">
+          <div class="artifact-card__icon">🎥</div>
+          <div class="artifact-card__type">Rekaman Pembelajaran</div>
+          <div class="artifact-card__title">Video Praktik Mengajar — Siklus 2: Konfigurasi Router OSPF</div>
+          <div class="artifact-card__desc">
+            Rekaman 45 menit pembelajaran di kelas X TKJ 2. Digunakan sebagai bahan refleksi diri dan evaluasi oleh Guru Pamong dan DPL melalui platform LMS institusi.
+          </div>
+          <div class="video-placeholder">
+            <div class="video-play-btn">▶</div>
+            <span>Pratinjau Video (Dummy)</span>
+          </div>
+          <div class="tag-row mt-sm">
+            <span class="tag tag--blue">Siklus 2</span>
+            <span class="tag">OSPF</span>
+            <span class="tag">Refleksi</span>
+          </div>
+          <a href="#" class="artifact-link mt-sm">Tonton Video</a>
+        </div>
+
+      </div><!-- /artifact-grid -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 3 — LAMPIRAN 7 & 8
+  ════════════════════════════════════════════ -->
+  <section class="tile tile--dark" id="penilaian">
+    <div class="tile__inner">
+      <p class="section-eyebrow section-eyebrow--dark">03 · Lampiran 7 & 8</p>
+      <h2 class="display-lg" style="color:var(--on-dark);">Penilaian Guru Pamong<br>& DPL — 3 Siklus.</h2>
+      <p class="lead mt-lg" style="color:var(--body-muted);max-width:680px;margin-left:auto;margin-right:auto;">
+        Rekap penilaian penyusunan perangkat pembelajaran (Lampiran 7) dan praktik mengajar (Lampiran 8) selama tiga siklus PPL Terbimbing.
+      </p>
+
+      <div class="cycle-section">
+        <div class="cycle-tabs">
+          <button class="cycle-tab active" onclick="showCycle(1)">Siklus 1</button>
+          <button class="cycle-tab" onclick="showCycle(2)">Siklus 2</button>
+          <button class="cycle-tab" onclick="showCycle(3)">Siklus 3</button>
+        </div>
+
+        <!-- SIKLUS 1 -->
+        <div class="cycle-panel active" id="cycle-1">
+          <p class="tagline" style="color:var(--body-muted);margin-bottom:16px;">
+            Materi: Pengenalan Jaringan Komputer & Topologi
+          </p>
+          <p class="caption" style="color:var(--ink-muted-48);margin-bottom:24px;">
+            Guru Pamong: Drs. Hendra Saputra, M.Pd · DPL: Dr. Andi Nurhayati, M.T
+          </p>
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 7 — Penilaian Penyusunan Perangkat Pembelajaran</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Kesesuaian Tujuan Pembelajaran</td><td>Tujuan operasional, terukur, sesuai CP</td><td><span class="score-pill score-pill--a">88</span></td><td><span class="score-pill score-pill--a">86</span></td><td>Perlu kejelasan kata kerja operasional</td></tr>
+              <tr><td>Kelengkapan Komponen RPP</td><td>Semua komponen tersedia dan konsisten</td><td><span class="score-pill score-pill--a">90</span></td><td><span class="score-pill score-pill--a">88</span></td><td>Baik, format sesuai panduan</td></tr>
+              <tr><td>Kualitas Media & Sumber Belajar</td><td>Media relevan, variatif, aksesibel</td><td><span class="score-pill score-pill--b">78</span></td><td><span class="score-pill score-pill--b">75</span></td><td>Tambahkan variasi media digital</td></tr>
+              <tr><td>Rancangan Penilaian</td><td>Instrumen valid, sesuai tujuan</td><td><span class="score-pill score-pill--b">80</span></td><td><span class="score-pill score-pill--a">82</span></td><td>Rubrik perlu diperjelas</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>84</strong></span></td><td><span class="score-pill score-pill--a"><strong>82.75</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+
+          <hr class="hairline-divider hairline-divider--dark" />
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 8 — Penilaian Praktik Mengajar</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pembukaan Pembelajaran</td><td>Apersepsi relevan, siswa terlibat</td><td><span class="score-pill score-pill--b">80</span></td><td><span class="score-pill score-pill--b">78</span></td><td>Motivasi awal perlu lebih kuat</td></tr>
+              <tr><td>Penguasaan Materi</td><td>Akurat, kontekstual, sesuai level siswa</td><td><span class="score-pill score-pill--a">88</span></td><td><span class="score-pill score-pill--a">90</span></td><td>Sangat baik, guru menguasai materi</td></tr>
+              <tr><td>Pengelolaan Kelas</td><td>Kondisi kondusif, transisi efisien</td><td><span class="score-pill score-pill--b">75</span></td><td><span class="score-pill score-pill--b">77</span></td><td>Siswa di pojok kurang terpantau</td></tr>
+              <tr><td>Interaksi & Umpan Balik</td><td>Respon terhadap pertanyaan siswa</td><td><span class="score-pill score-pill--a">85</span></td><td><span class="score-pill score-pill--a">83</span></td><td>Respons pertanyaan cukup baik</td></tr>
+              <tr><td>Penutupan & Refleksi</td><td>Rangkuman bersama, tindak lanjut jelas</td><td><span class="score-pill score-pill--b">78</span></td><td><span class="score-pill score-pill--b">80</span></td><td>Alokasi waktu penutup kurang</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>81.2</strong></span></td><td><span class="score-pill score-pill--a"><strong>81.6</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SIKLUS 2 -->
+        <div class="cycle-panel" id="cycle-2">
+          <p class="tagline" style="color:var(--body-muted);margin-bottom:16px;">
+            Materi: Konfigurasi VLAN & Inter-VLAN Routing
+          </p>
+          <p class="caption" style="color:var(--ink-muted-48);margin-bottom:24px;">
+            Guru Pamong: Drs. Hendra Saputra, M.Pd · DPL: Dr. Andi Nurhayati, M.T
+          </p>
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 7 — Penilaian Penyusunan Perangkat Pembelajaran</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Kesesuaian Tujuan Pembelajaran</td><td>Tujuan operasional, terukur, sesuai CP</td><td><span class="score-pill score-pill--a">90</span></td><td><span class="score-pill score-pill--a">89</span></td><td>Perbaikan dari siklus 1 terlihat jelas</td></tr>
+              <tr><td>Kelengkapan Komponen RPP</td><td>Semua komponen tersedia dan konsisten</td><td><span class="score-pill score-pill--a">91</span></td><td><span class="score-pill score-pill--a">90</span></td><td>Sangat lengkap</td></tr>
+              <tr><td>Kualitas Media & Sumber Belajar</td><td>Media relevan, variatif, aksesibel</td><td><span class="score-pill score-pill--a">85</span></td><td><span class="score-pill score-pill--a">86</span></td><td>Simulasi Packet Tracer sangat efektif</td></tr>
+              <tr><td>Rancangan Penilaian</td><td>Instrumen valid, sesuai tujuan</td><td><span class="score-pill score-pill--a">87</span></td><td><span class="score-pill score-pill--a">85</span></td><td>Rubrik lebih detail dari siklus 1</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>88.25</strong></span></td><td><span class="score-pill score-pill--a"><strong>87.5</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+
+          <hr class="hairline-divider hairline-divider--dark" />
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 8 — Penilaian Praktik Mengajar</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pembukaan Pembelajaran</td><td>Apersepsi relevan, siswa terlibat</td><td><span class="score-pill score-pill--a">85</span></td><td><span class="score-pill score-pill--a">83</span></td><td>Apersepsi lebih kuat dari siklus 1</td></tr>
+              <tr><td>Penguasaan Materi</td><td>Akurat, kontekstual, sesuai level siswa</td><td><span class="score-pill score-pill--a">90</span></td><td><span class="score-pill score-pill--a">92</span></td><td>Penjelasan VLAN sangat kontekstual</td></tr>
+              <tr><td>Pengelolaan Kelas</td><td>Kondisi kondusif, transisi efisien</td><td><span class="score-pill score-pill--a">82</span></td><td><span class="score-pill score-pill--a">80</span></td><td>Ada peningkatan dari siklus 1</td></tr>
+              <tr><td>Interaksi & Umpan Balik</td><td>Respon terhadap pertanyaan siswa</td><td><span class="score-pill score-pill--a">88</span></td><td><span class="score-pill score-pill--a">86</span></td><td>Sangat responsif terhadap siswa</td></tr>
+              <tr><td>Penutupan & Refleksi</td><td>Rangkuman bersama, tindak lanjut jelas</td><td><span class="score-pill score-pill--a">84</span></td><td><span class="score-pill score-pill--a">83</span></td><td>Penutup lebih terstruktur</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>85.8</strong></span></td><td><span class="score-pill score-pill--a"><strong>84.8</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SIKLUS 3 -->
+        <div class="cycle-panel" id="cycle-3">
+          <p class="tagline" style="color:var(--body-muted);margin-bottom:16px;">
+            Materi: Routing Dinamis OSPF & Troubleshooting Jaringan
+          </p>
+          <p class="caption" style="color:var(--ink-muted-48);margin-bottom:24px;">
+            Guru Pamong: Drs. Hendra Saputra, M.Pd · DPL: Dr. Andi Nurhayati, M.T
+          </p>
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 7 — Penilaian Penyusunan Perangkat Pembelajaran</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Kesesuaian Tujuan Pembelajaran</td><td>Tujuan operasional, terukur, sesuai CP</td><td><span class="score-pill score-pill--a">93</span></td><td><span class="score-pill score-pill--a">92</span></td><td>Tujuan sangat presisi dan terukur</td></tr>
+              <tr><td>Kelengkapan Komponen RPP</td><td>Semua komponen tersedia dan konsisten</td><td><span class="score-pill score-pill--a">95</span></td><td><span class="score-pill score-pill--a">93</span></td><td>Perangkat terlengkap dari 3 siklus</td></tr>
+              <tr><td>Kualitas Media & Sumber Belajar</td><td>Media relevan, variatif, aksesibel</td><td><span class="score-pill score-pill--a">90</span></td><td><span class="score-pill score-pill--a">91</span></td><td>Integrasi video & simulasi sangat baik</td></tr>
+              <tr><td>Rancangan Penilaian</td><td>Instrumen valid, sesuai tujuan</td><td><span class="score-pill score-pill--a">91</span></td><td><span class="score-pill score-pill--a">90</span></td><td>Rubrik komprehensif & terdiferensiasi</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>92.25</strong></span></td><td><span class="score-pill score-pill--a"><strong>91.5</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+
+          <hr class="hairline-divider hairline-divider--dark" />
+
+          <p class="caption-strong" style="color:var(--body-muted);margin-bottom:12px;">LAMPIRAN 8 — Penilaian Praktik Mengajar</p>
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>Aspek Penilaian</th>
+                <th>Indikator</th>
+                <th>Skor GP</th>
+                <th>Skor DPL</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pembukaan Pembelajaran</td><td>Apersepsi relevan, siswa terlibat</td><td><span class="score-pill score-pill--a">90</span></td><td><span class="score-pill score-pill--a">88</span></td><td>Pembukaan sangat engaging</td></tr>
+              <tr><td>Penguasaan Materi</td><td>Akurat, kontekstual, sesuai level siswa</td><td><span class="score-pill score-pill--a">93</span></td><td><span class="score-pill score-pill--a">94</span></td><td>Ahli di bidangnya, siswa antusias</td></tr>
+              <tr><td>Pengelolaan Kelas</td><td>Kondisi kondusif, transisi efisien</td><td><span class="score-pill score-pill--a">88</span></td><td><span class="score-pill score-pill--a">86</span></td><td>Sangat kondusif, transisi mulus</td></tr>
+              <tr><td>Interaksi & Umpan Balik</td><td>Respon terhadap pertanyaan siswa</td><td><span class="score-pill score-pill--a">91</span></td><td><span class="score-pill score-pill--a">90</span></td><td>Pertanyaan Socratic sangat efektif</td></tr>
+              <tr><td>Penutupan & Refleksi</td><td>Rangkuman bersama, tindak lanjut jelas</td><td><span class="score-pill score-pill--a">89</span></td><td><span class="score-pill score-pill--a">87</span></td><td>Refleksi siswa terstruktur sangat baik</td></tr>
+              <tr><td><strong>Rata-rata</strong></td><td></td><td><span class="score-pill score-pill--a"><strong>90.2</strong></span></td><td><span class="score-pill score-pill--a"><strong>89</strong></span></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /cycle-section -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4 — MODEL GURU
+  ════════════════════════════════════════════ -->
+  <section class="tile tile--light" id="model-guru">
+    <div class="tile__inner">
+      <p class="section-eyebrow">04 · Model Guru yang Dituju</p>
+      <h2 class="display-lg">Guru yang Ingin<br>Saya Jadi.</h2>
+      <p class="lead mt-lg" style="max-width:680px;margin-left:auto;margin-right:auto;">
+        Visi, kompetensi, dan karakter yang saya bangun untuk menuju guru profesional berdampak.
+      </p>
+
+      <!-- Misi Banner -->
+      <div class="mission-banner">
+        <p class="mission-banner__label">Pernyataan Misi</p>
+        <p class="display-md" style="color:var(--on-dark);max-width:720px;margin:0 auto;">
+          "Menjadi guru teknologi yang membangun pemikir, bukan sekadar operator—yang mengajarkan siswa cara belajar dan beradaptasi di dunia yang terus berubah."
+        </p>
+      </div>
+
+      <!-- Kompetensi Grid -->
+      <h3 class="tagline mt-xxl" style="text-align:center;">Kompetensi yang Dibangun</h3>
+      <div class="model-grid">
+
+        <div class="model-card">
+          <div class="model-card__num">Kompetensi 01</div>
+          <div class="model-card__title">Pedagogik Adaptif</div>
+          <div class="model-card__body">Kemampuan merancang pembelajaran yang responsif terhadap keberagaman siswa, gaya belajar, dan konteks lokal.</div>
+          <ul class="competency-list">
+            <li>Pembelajaran berdiferensiasi berdasarkan ZPD</li>
+            <li>Asesmen formatif berkelanjutan</li>
+            <li>Penggunaan data untuk keputusan instruksional</li>
+            <li>Pendekatan PjBL berbasis masalah nyata</li>
+          </ul>
+        </div>
+
+        <div class="model-card">
+          <div class="model-card__num">Kompetensi 02</div>
+          <div class="model-card__title">Literasi Digital Mendalam</div>
+          <div class="model-card__body">Menguasai dan mengintegrasikan teknologi tidak sebagai hiasan, tetapi sebagai alat berpikir dan kolaborasi.</div>
+          <ul class="competency-list">
+            <li>Integrasi simulasi jaringan (Packet Tracer)</li>
+            <li>Pemanfaatan LMS secara efektif</li>
+            <li>Kurikulum yang relevan dengan industri 4.0</li>
+            <li>Etika digital sebagai muatan eksplisit</li>
+          </ul>
+        </div>
+
+        <div class="model-card">
+          <div class="model-card__num">Kompetensi 03</div>
+          <div class="model-card__title">Komunikasi & Relasi</div>
+          <div class="model-card__body">Membangun relasi yang hangat dan profesional dengan siswa, rekan sejawat, orang tua, dan komunitas.</div>
+          <ul class="competency-list">
+            <li>Komunikasi asertif dan empatik</li>
+            <li>Umpan balik yang konstruktif dan spesifik</li>
+            <li>Kolaborasi lintas mata pelajaran</li>
+            <li>Pelibatan orang tua dalam proses belajar</li>
+          </ul>
+        </div>
+
+        <div class="model-card">
+          <div class="model-card__num">Kompetensi 04</div>
+          <div class="model-card__title">Refleksi & Pertumbuhan</div>
+          <div class="model-card__body">Komitmen untuk terus belajar, mengkritisi praktik sendiri, dan tumbuh sebagai profesional pendidikan.</div>
+          <ul class="competency-list">
+            <li>Jurnal reflektif setelah setiap pembelajaran</li>
+            <li>Penelitian Tindakan Kelas (PTK)</li>
+            <li>Komunitas Belajar Profesional (CoP)</li>
+            <li>Pembaruan kompetensi teknis berkala</li>
+          </ul>
+        </div>
+
+        <div class="model-card">
+          <div class="model-card__num">Karakter 01</div>
+          <div class="model-card__title">Integritas & Konsistensi</div>
+          <div class="model-card__body">Nilai yang diajarkan harus tercermin dalam setiap tindakan—guru adalah kurikulum yang berjalan.</div>
+          <ul class="competency-list">
+            <li>Tepat waktu dan disiplin sebagai teladan</li>
+            <li>Transparansi dalam penilaian</li>
+            <li>Kejujuran akademik yang tidak dapat dikompromikan</li>
+            <li>Konsisten antara ucapan dan perilaku</li>
+          </ul>
+        </div>
+
+        <div class="model-card">
+          <div class="model-card__num">Karakter 02</div>
+          <div class="model-card__title">Inklusivitas & Keadilan</div>
+          <div class="model-card__body">Setiap siswa berhak atas kesempatan belajar yang setara, terlepas dari latar belakang dan kemampuan awal.</div>
+          <ul class="competency-list">
+            <li>Universal Design for Learning (UDL)</li>
+            <li>Lingkungan kelas yang bebas diskriminasi</li>
+            <li>Perhatian ekstra untuk siswa rentan</li>
+            <li>Pembelajaran yang merayakan keberagaman</li>
+          </ul>
+        </div>
+
+      </div><!-- /model-grid -->
+
+      <div class="cta-row mt-xxl">
+        <a href="#profil" class="btn-pill">Kembali ke Profil</a>
+        <a href="#artefak" class="btn-pill btn-pill--ghost">Lihat Artefak</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer id="kontak">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-col__title">E-Portfolio</p>
+        <ul class="footer-col__links">
+          <li><a href="#profil">Profil Mahasiswa</a></li>
+          <li><a href="#artefak">Artefak Pembelajaran</a></li>
+          <li><a href="#penilaian">Lampiran 7 & 8</a></li>
+          <li><a href="#model-guru">Model Guru</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col__title">Program</p>
+        <ul class="footer-col__links">
+          <li><a href="#">PPG Prajabatan 2024</a></li>
+          <li><a href="#">SMK Negeri 2 Makassar</a></li>
+          <li><a href="#">Universitas Negeri Makassar</a></li>
+          <li><a href="#">TKJ — Teknik Komputer &amp; Jaringan</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col__title">Kontak</p>
+        <ul class="footer-col__links">
+          <li><a href="#">ahmad.fadhil@unm.ac.id</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col__title">Dokumen</p>
+        <ul class="footer-col__links">
+          <li><a href="#">Unduh Semua RPP</a></li>
+          <li><a href="#">Laporan PPL</a></li>
+          <li><a href="#">Rekaman Mengajar</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p class="fine-print">© 2024 Ahmad Fadhil Kurniawan · E-Portfolio PPG Prajabatan · Universitas Negeri Makassar</p>
+      <p class="fine-print">Data bersifat dummy — untuk keperluan pengembangan portofolio</p>
+    </div>
+  </footer>
+
+  <script>
+    function showCycle(n) {
+      document.querySelectorAll('.cycle-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.cycle-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('cycle-' + n).classList.add('active');
+      document.querySelectorAll('.cycle-tab')[n - 1].classList.add('active');
+    }
+  </script>
+</body>
+</html>
